@@ -59,6 +59,8 @@
 
 Este proyecto implementa un sistema de telefonía IP (VoIP) completo con funcionalidades avanzadas como menús IVR, colas de llamadas, buzón de voz, conferencias, sistema de tarificación y una interfaz web de gestión.
 
+<a id="introduccion"></a>
+
 ## 📘 Introducción
 
 Esta práctica fue desarrollada por dos estudiantes (los autores indicados en este repositorio) como proyecto de la asignatura *Laboratorio de Redes, Señales y Sistemas*. La implementación se realizó sobre una máquina virtual Ubuntu en VirtualBox, utilizando conectividad en modo *bridge* para facilitar la integración de red con el entorno local y las pruebas de telefonía IP entre dispositivos/softphones.
@@ -72,53 +74,55 @@ Esta guía mantiene el orden de la memoria PDF del proyecto para conservar coher
 ## 📋 Tabla de Contenidos
 
 - **Contenido principal**
-  - [Introducción](#-introducción)
-  - [Desarrollo de Guía](#-desarrollo-de-guía)
-    - [Instalación de Asterisk](#1-instalación-de-asterisk)
-    - [Creación de Usuarios](#2-creación-de-usuarios)
-      - [Zoiper](#3-zoiper)
-    - [Configuración del Idioma](#4-configuración-del-idioma)
+  - [Introducción](#introduccion)
+  - [Desarrollo de Guía](#desarrollo-guia)
+    - [Instalación de Asterisk](#instalacion-asterisk)
+    - [Creación de Usuarios](#creacion-usuarios)
+      - [Zoiper](#zoiper)
+    - [Configuración del Idioma](#configuracion-idioma)
     - [Funcionalidades](#funcionalidades)
-      - [Buzón de Voz](#buzón-de-voz)
-      - [Música en Espera](#música-en-espera)
+      - [Buzón de Voz](#buzon-voz)
+      - [Música en Espera](#musica-espera)
       - [Transferencias](#transferencias)
       - [Conferencias](#conferencias)
-      - [Texto a Voz - TTS](#texto-a-voz---tts)
+      - [Texto a Voz - TTS](#texto-a-voz-tts)
         - [Festival](#festival)
-      - [Menú IVR](#menú-ivr)
-      - [Llamadas en Cola](#llamadas-en-cola)
-      - [Conexión PBXs](#conexión-pbxs)
-      - [Instalación de MariaDB](#instalación-de-mariadb)
-      - [Tarificación](#tarificación)
-        - [www.marchel.com](#wwwmarchelcom)
-  - [Conclusión](#-conclusión)
-  - [Bibliografía](#-bibliografía)
+      - [Menú IVR](#menu-ivr)
+      - [Llamadas en Cola](#llamadas-cola)
+      - [Conexión PBXs](#conexion-pbxs)
+      - [Instalación de MariaDB](#instalacion-mariadb)
+      - [Tarificación](#tarificacion)
+        - [www.marchel.com](#web-marchel)
+  - [Conclusión](#conclusion)
+  - [Bibliografía](#bibliografia)
 
 - **Mejoras y apartados añadidos**
-  - [Características](#-características)
-  - [Estructura del Repositorio](#-estructura-del-repositorio)
-  - [Requisitos del Sistema](#-requisitos-del-sistema)
-  - [Grabación de Llamadas](#grabación-de-llamadas)
-  - [Anexo: Zoiper (detalle)](#-anexo-zoiper-detalle)
+  - [Características](#caracteristicas)
+  - [Estructura del Repositorio](#estructura-repositorio)
+  - [Requisitos del Sistema](#requisitos-sistema)
+  - [Grabación de Llamadas](#grabacion-llamadas)
+  - [Anexo: Zoiper (detalle)](#anexo-zoiper)
     - [Descargar Zoiper](#descargar-zoiper)
     - [Configurar usuario](#configurar-usuario)
     - [Realizar llamadas](#realizar-llamadas)
-  - [Mapa de imágenes (auditoría)](#-mapa-de-imágenes-auditoría)
-  - [Arquitectura del Sistema](#-arquitectura-del-sistema)
-  - [Contribuciones y Sugerencias](#-contribuciones-y-sugerencias)
-    - [Contacto](#-contacto)
-  - [Autores](#-autores)
-  - [Licencia](#-licencia)
-  - [Agradecimientos](#-agradecimientos)
-  - [Notas Adicionales](#-notas-adicionales)
-    - [Comandos útiles de Asterisk](#comandos-útiles-de-asterisk)
-    - [Solución de problemas comunes](#solución-de-problemas-comunes)
+  - [Mapa de imágenes (auditoría)](#mapa-imagenes)
+  - [Arquitectura del Sistema](#arquitectura-sistema)
+  - [Contribuciones y Sugerencias](#contribuciones-sugerencias)
+    - [Contacto](#contacto)
+  - [Autores](#autores)
+  - [Licencia](#licencia)
+  - [Agradecimientos](#agradecimientos)
+  - [Notas Adicionales](#notas-adicionales)
+    - [Comandos útiles de Asterisk](#comandos-utiles-asterisk)
+    - [Solución de problemas comunes](#solucion-problemas-comunes)
 
 ---
 
 ## 🧪 Mejoras y apartados añadidos
 
 Los apartados siguientes se mantienen como documentación técnica adicional para facilitar despliegue, mantenimiento y uso del repositorio.
+
+<a id="caracteristicas"></a>
 
 ## ✨ Características
 
@@ -139,6 +143,8 @@ Los apartados siguientes se mantienen como documentación técnica adicional par
 - **🌍 Soporte multiidioma** (español configurado)
 
 ---
+
+<a id="estructura-repositorio"></a>
 
 ## 🗂️ Estructura del Repositorio
 
@@ -167,6 +173,8 @@ Los apartados siguientes se mantienen como documentación técnica adicional par
 
 ---
 
+<a id="requisitos-sistema"></a>
+
 ## 🖥️ Requisitos del Sistema
 
 - **Sistema Operativo**: Ubuntu 24.04 LTS (recomendado)
@@ -179,9 +187,13 @@ Los apartados siguientes se mantienen como documentación técnica adicional par
 
 ---
 
+<a id="desarrollo-guia"></a>
+
 ## 🧭 Desarrollo de Guía
 
 > Nota: En esta guía se usan nombres de imágenes y apartados alineados con la memoria PDF (`docs/report/memoria-guia-completa-con-imagenes.pdf`) para facilitar el seguimiento entre ambos documentos.
+
+<a id="instalacion-asterisk"></a>
 
 ### 1. Instalación de Asterisk
 
@@ -408,6 +420,8 @@ sudo ufw status
 > rtpend=20000
 > ```
 
+<a id="creacion-usuarios"></a>
+
 ### 2. Creación de Usuarios
 
 #### Editar `/etc/asterisk/pjsip.conf`
@@ -507,6 +521,8 @@ Recarga el dialplan:
 asterisk -rx "dialplan reload"
 ```
 
+<a id="zoiper"></a>
+
 #### 3. Zoiper
 
 Zoiper es una aplicación VoIP gratuita compatible con Asterisk y se usa en la práctica para verificar el registro y las llamadas entre extensiones.
@@ -544,6 +560,8 @@ Pruebas recomendadas:
 <a id="img-20"></a>
 
 ![Imagen 20 - Menú de configuración de usuarios de Zoiper](assets/readme/pdf/imagen-20-menu-de-configuracion-de-usuarios-de-zoiper.png)
+
+<a id="configuracion-idioma"></a>
 
 ### 4. Configuración del Idioma
 
@@ -612,7 +630,11 @@ Si trabajas con varias carpetas de idioma como `es`, `en`, `fr` o `es1`, el valo
 
 ---
 
+<a id="funcionalidades"></a>
+
 ### Funcionalidades
+
+<a id="buzon-voz"></a>
 
 #### Buzón de Voz
 
@@ -645,6 +667,8 @@ same => n,VoiceMailMain(@default)
 same => n,Hangup()
 ```
 
+<a id="musica-espera"></a>
+
 #### Música en Espera
 
 #### Crear directorio
@@ -675,6 +699,8 @@ random=yes
 exten => 2001,n,MusicOnHold(default)
 ```
 
+<a id="transferencias"></a>
+
 #### Transferencias
 
 #### Editar `/etc/asterisk/features.conf`
@@ -702,6 +728,8 @@ Opciones:
 <a id="img-23"></a>
 
 ![Imagen 23 - Diagrama de flujo del funcionamiento de las redirecciones](assets/readme/pdf/imagen-23-diagrama-de-flujo-del-funcionamiento-de-las-redirecciones.png)
+
+<a id="conferencias"></a>
 
 #### Conferencias
 
@@ -745,6 +773,8 @@ same => n,ConfBridge(1234,default_bridge,default_admin)
 same => n,Hangup()
 ```
 
+<a id="grabacion-llamadas"></a>
+
 ### Grabación de Llamadas
 
 Asterisk permite grabar llamadas automáticamente o bajo demanda.
@@ -779,7 +809,11 @@ sudo chmod 750 /var/spool/asterisk/monitor
 
 > **Nota**: Revisa la legalidad de la grabación de llamadas en tu país antes de activarla en producción.
 
+<a id="texto-a-voz-tts"></a>
+
 #### Texto a Voz - TTS
+
+<a id="festival"></a>
 
 ##### Festival
 
@@ -887,6 +921,8 @@ dialplan reload
 
 ![Imagen 26 - Comprobación de que Festival se ha configurado correctamente en Asterisk](assets/readme/pdf/imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png)
 
+<a id="menu-ivr"></a>
+
 #### Menú IVR
 
 El menú IVR (Interactive Voice Response) permite a los usuarios interactuar con el sistema mediante el teclado telefónico.
@@ -946,6 +982,8 @@ same => n,Hangup()
 <a id="img-27"></a>
 
 ![Imagen 27 - Diagrama de flujo sobre el funcionamiento del Menú IVR](assets/readme/pdf/imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png)
+
+<a id="llamadas-cola"></a>
 
 #### Llamadas en Cola
 
@@ -1007,6 +1045,8 @@ same => n,Hangup()
 <a id="img-28"></a>
 
 ![Imagen 28 - Diagrama de flujo de funcionamiento de la cola de llamadas del soporte técnico](assets/readme/pdf/imagen-28-diagrama-de-flujo-de-funcionamiento-de-la-cola-de-llamadas-del-soporte-tecnico.png)
+
+<a id="conexion-pbxs"></a>
 
 #### Conexión PBXs
 
@@ -1219,6 +1259,8 @@ Una vez configurado:
 2. La llamada se enruta a través del troncal hacia Servidor B
 3. El usuario 6001 en Servidor B recibe la llamada
 4. Viceversa para llamadas de 6XXX hacia 2XXX
+
+<a id="instalacion-mariadb"></a>
 
 #### Instalación de MariaDB
 
@@ -1436,6 +1478,8 @@ asterisk -rx "odbc show"
 
 ![Imagen 34 - Comprobación de que el conector ODBC está bien conectado a Asterisk](assets/readme/pdf/imagen-34-comprobacion-de-que-el-conector-odbc-esta-bien-conectado-a-asterisk.png)
 
+<a id="tarificacion"></a>
+
 #### Tarificación
 
 El repositorio incluye el script de tarificación en `scripts/tarificar.py`, que procesa registros CDR y calcula costes automáticamente.
@@ -1540,6 +1584,8 @@ Añadir:
 <a id="img-36"></a>
 
 ![Imagen 36 - Interfaz CRON](assets/readme/pdf/imagen-36-interfaz-cron.png)
+
+<a id="web-marchel"></a>
 
 ##### www.marchel.com
 
@@ -1653,25 +1699,27 @@ La pestaña de tendencias presenta la evolución mensual del coste, duración me
 
 ---
 
+<a id="mapa-imagenes"></a>
+
 ## 🗺️ Mapa de imágenes (auditoría)
 
 | Imagen | Archivo | Sección correspondiente |
 |---|---|---|
-| [1](#img-01) | [imagen-01-instalacion-asterisk-completada.png](assets/readme/pdf/imagen-01-instalacion-asterisk-completada.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [2](#img-02) | [imagen-02-configuracion-de-asterisk.png](assets/readme/pdf/imagen-02-configuracion-de-asterisk.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [3](#img-03) | [imagen-03-menu-de-configuraciones-de-asterisk-1.png](assets/readme/pdf/imagen-03-menu-de-configuraciones-de-asterisk-1.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [4](#img-04) | [imagen-04-menu-de-configuraciones-de-asterisk-2.png](assets/readme/pdf/imagen-04-menu-de-configuraciones-de-asterisk-2.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [5](#img-05) | [imagen-05-menu-de-configuraciones-de-asterisk-3.png](assets/readme/pdf/imagen-05-menu-de-configuraciones-de-asterisk-3.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [6](#img-06) | [imagen-06-menu-de-configuraciones-de-asterisk-4.png](assets/readme/pdf/imagen-06-menu-de-configuraciones-de-asterisk-4.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [7](#img-07) | [imagen-07-menu-de-configuraciones-de-asterisk-5.png](assets/readme/pdf/imagen-07-menu-de-configuraciones-de-asterisk-5.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [8](#img-08) | [imagen-08-menu-de-configuraciones-de-asterisk-6.png](assets/readme/pdf/imagen-08-menu-de-configuraciones-de-asterisk-6.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [9](#img-09) | [imagen-09-menu-de-configuraciones-de-asterisk-7.png](assets/readme/pdf/imagen-09-menu-de-configuraciones-de-asterisk-7.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [10](#img-10) | [imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png](assets/readme/pdf/imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [11](#img-11) | [imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png](assets/readme/pdf/imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [12](#img-12) | [imagen-12-interfaz-de-asterisk-en-modo-verboso.png](assets/readme/pdf/imagen-12-interfaz-de-asterisk-en-modo-verboso.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
-| [13](#img-13) | [imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png](assets/readme/pdf/imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png) | [2. Creación de Usuarios](#2-creación-de-usuarios) |
-| [14](#img-14) | [imagen-14-comprobacion-de-los-endpoints-en-asterisk.png](assets/readme/pdf/imagen-14-comprobacion-de-los-endpoints-en-asterisk.png) | [2. Creación de Usuarios](#2-creación-de-usuarios) |
-| [15](#img-15) | [imagen-15-comprobacion-de-los-aors-en-asterisk.png](assets/readme/pdf/imagen-15-comprobacion-de-los-aors-en-asterisk.png) | [2. Creación de Usuarios](#2-creación-de-usuarios) |
+| [1](#img-01) | [imagen-01-instalacion-asterisk-completada.png](assets/readme/pdf/imagen-01-instalacion-asterisk-completada.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [2](#img-02) | [imagen-02-configuracion-de-asterisk.png](assets/readme/pdf/imagen-02-configuracion-de-asterisk.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [3](#img-03) | [imagen-03-menu-de-configuraciones-de-asterisk-1.png](assets/readme/pdf/imagen-03-menu-de-configuraciones-de-asterisk-1.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [4](#img-04) | [imagen-04-menu-de-configuraciones-de-asterisk-2.png](assets/readme/pdf/imagen-04-menu-de-configuraciones-de-asterisk-2.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [5](#img-05) | [imagen-05-menu-de-configuraciones-de-asterisk-3.png](assets/readme/pdf/imagen-05-menu-de-configuraciones-de-asterisk-3.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [6](#img-06) | [imagen-06-menu-de-configuraciones-de-asterisk-4.png](assets/readme/pdf/imagen-06-menu-de-configuraciones-de-asterisk-4.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [7](#img-07) | [imagen-07-menu-de-configuraciones-de-asterisk-5.png](assets/readme/pdf/imagen-07-menu-de-configuraciones-de-asterisk-5.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [8](#img-08) | [imagen-08-menu-de-configuraciones-de-asterisk-6.png](assets/readme/pdf/imagen-08-menu-de-configuraciones-de-asterisk-6.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [9](#img-09) | [imagen-09-menu-de-configuraciones-de-asterisk-7.png](assets/readme/pdf/imagen-09-menu-de-configuraciones-de-asterisk-7.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [10](#img-10) | [imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png](assets/readme/pdf/imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [11](#img-11) | [imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png](assets/readme/pdf/imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [12](#img-12) | [imagen-12-interfaz-de-asterisk-en-modo-verboso.png](assets/readme/pdf/imagen-12-interfaz-de-asterisk-en-modo-verboso.png) | [1. Instalación de Asterisk](#instalacion-asterisk) |
+| [13](#img-13) | [imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png](assets/readme/pdf/imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png) | [2. Creación de Usuarios](#creacion-usuarios) |
+| [14](#img-14) | [imagen-14-comprobacion-de-los-endpoints-en-asterisk.png](assets/readme/pdf/imagen-14-comprobacion-de-los-endpoints-en-asterisk.png) | [2. Creación de Usuarios](#creacion-usuarios) |
+| [15](#img-15) | [imagen-15-comprobacion-de-los-aors-en-asterisk.png](assets/readme/pdf/imagen-15-comprobacion-de-los-aors-en-asterisk.png) | [2. Creación de Usuarios](#creacion-usuarios) |
 | [16](#img-16) | [imagen-16-formulario-de-inicio-de-sesion-de-zoiper.png](assets/readme/pdf/imagen-16-formulario-de-inicio-de-sesion-de-zoiper.png) | [3. Zoiper](#3-zoiper) |
 | [17](#img-17) | [imagen-17-comprobacion-y-configuracion-de-la-ip-en-zoiper.png](assets/readme/pdf/imagen-17-comprobacion-y-configuracion-de-la-ip-en-zoiper.png) | [3. Zoiper](#3-zoiper) |
 | [18](#img-18) | [imagen-18-conexion-establecida-de-un-usuario-final-en-zoiper.png](assets/readme/pdf/imagen-18-conexion-establecida-de-un-usuario-final-en-zoiper.png) | [3. Zoiper](#3-zoiper) |
@@ -1683,7 +1731,7 @@ La pestaña de tendencias presenta la evolución mensual del coste, duración me
 | [24](#img-24) | [imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png](assets/readme/pdf/imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png) | [Conferencias](#conferencias) |
 | [25](#img-25) | [imagen-25-comprobacion-de-que-festival-esta-activo.png](assets/readme/pdf/imagen-25-comprobacion-de-que-festival-esta-activo.png) | [Festival](#festival) |
 | [26](#img-26) | [imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png](assets/readme/pdf/imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png) | [Festival](#festival) |
-| [27](#img-27) | [imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png](assets/readme/pdf/imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png) | [Menú IVR](#menú-ivr) |
+| [27](#img-27) | [imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png](assets/readme/pdf/imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png) | [Menú IVR](#menu-ivr) |
 | [28](#img-28) | [imagen-28-diagrama-de-flujo-de-funcionamiento-de-la-cola-de-llamadas-del-soporte-tecnico.png](assets/readme/pdf/imagen-28-diagrama-de-flujo-de-funcionamiento-de-la-cola-de-llamadas-del-soporte-tecnico.png) | [Llamadas en Cola](#llamadas-en-cola) |
 | [29](#img-29) | [imagen-29-comprobacion-de-que-mariadb-se-encuentra-activa.png](assets/readme/pdf/imagen-29-comprobacion-de-que-mariadb-se-encuentra-activa.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
 | [30](#img-30) | [imagen-30-comprobacion-de-creacion-del-usuario-asterisk-dentro-de-mariadb.png](assets/readme/pdf/imagen-30-comprobacion-de-creacion-del-usuario-asterisk-dentro-de-mariadb.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
@@ -1691,42 +1739,48 @@ La pestaña de tendencias presenta la evolución mensual del coste, duración me
 | [32](#img-32) | [imagen-32-comprobacion-de-la-creacion-de-la-tabla-cdr.png](assets/readme/pdf/imagen-32-comprobacion-de-la-creacion-de-la-tabla-cdr.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
 | [33](#img-33) | [imagen-33-comprobacion-de-que-mariadb-se-ha-conectado-correctamente-a-asterisk.png](assets/readme/pdf/imagen-33-comprobacion-de-que-mariadb-se-ha-conectado-correctamente-a-asterisk.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
 | [34](#img-34) | [imagen-34-comprobacion-de-que-el-conector-odbc-esta-bien-conectado-a-asterisk.png](assets/readme/pdf/imagen-34-comprobacion-de-que-el-conector-odbc-esta-bien-conectado-a-asterisk.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
-| [35](#img-35) | [imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png](assets/readme/pdf/imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png) | [Tarificación](#tarificación) |
-| [36](#img-36) | [imagen-36-interfaz-cron.png](assets/readme/pdf/imagen-36-interfaz-cron.png) | [Tarificación](#tarificación) |
-| [37](#img-37) | [imagen-37-web-inicio-de-sesion.png](assets/readme/pdf/imagen-37-web-inicio-de-sesion.png) | [www.marchel.com](#wwwmarchelcom) |
-| [38](#img-38) | [imagen-38-web-panel-principal.png](assets/readme/pdf/imagen-38-web-panel-principal.png) | [www.marchel.com](#wwwmarchelcom) |
-| [39](#img-39) | [imagen-39-web-estadisticas.png](assets/readme/pdf/imagen-39-web-estadisticas.png) | [www.marchel.com](#wwwmarchelcom) |
-| [40](#img-40) | [imagen-40-web-tarifas.png](assets/readme/pdf/imagen-40-web-tarifas.png) | [www.marchel.com](#wwwmarchelcom) |
-| [41](#img-41) | [imagen-41-web-historial.png](assets/readme/pdf/imagen-41-web-historial.png) | [www.marchel.com](#wwwmarchelcom) |
-| [42](#img-42) | [imagen-42-web-tendencias.png](assets/readme/pdf/imagen-42-web-tendencias.png) | [www.marchel.com](#wwwmarchelcom) |
+| [35](#img-35) | [imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png](assets/readme/pdf/imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png) | [Tarificación](#tarificacion) |
+| [36](#img-36) | [imagen-36-interfaz-cron.png](assets/readme/pdf/imagen-36-interfaz-cron.png) | [Tarificación](#tarificacion) |
+| [37](#img-37) | [imagen-37-web-inicio-de-sesion.png](assets/readme/pdf/imagen-37-web-inicio-de-sesion.png) | [www.marchel.com](#web-marchel) |
+| [38](#img-38) | [imagen-38-web-panel-principal.png](assets/readme/pdf/imagen-38-web-panel-principal.png) | [www.marchel.com](#web-marchel) |
+| [39](#img-39) | [imagen-39-web-estadisticas.png](assets/readme/pdf/imagen-39-web-estadisticas.png) | [www.marchel.com](#web-marchel) |
+| [40](#img-40) | [imagen-40-web-tarifas.png](assets/readme/pdf/imagen-40-web-tarifas.png) | [www.marchel.com](#web-marchel) |
+| [41](#img-41) | [imagen-41-web-historial.png](assets/readme/pdf/imagen-41-web-historial.png) | [www.marchel.com](#web-marchel) |
+| [42](#img-42) | [imagen-42-web-tendencias.png](assets/readme/pdf/imagen-42-web-tendencias.png) | [www.marchel.com](#web-marchel) |
 
-### Mapa por sección (revisión docente rápida)
+### Mapa por sección
 
 | Sección | Imágenes |
 |---|---|
-| [1. Instalación de Asterisk](#1-instalación-de-asterisk) | [1](#img-01)–[12](#img-12) |
-| [2. Creación de Usuarios](#2-creación-de-usuarios) | [13](#img-13)–[15](#img-15) |
-| [3. Zoiper](#3-zoiper) | [16](#img-16)–[20](#img-20) |
-| [4. Configuración del Idioma](#4-configuración-del-idioma) | [21](#img-21)–[22](#img-22) |
+| [1. Instalación de Asterisk](#instalacion-asterisk) | [1](#img-01)–[12](#img-12) |
+| [2. Creación de Usuarios](#creacion-usuarios) | [13](#img-13)–[15](#img-15) |
+| [3. Zoiper](#zoiper) | [16](#img-16)–[20](#img-20) |
+| [4. Configuración del Idioma](#configuracion-idioma) | [21](#img-21)–[22](#img-22) |
 | [Transferencias](#transferencias) | [23](#img-23) |
 | [Conferencias](#conferencias) | [24](#img-24) |
 | [Festival](#festival) | [25](#img-25)–[26](#img-26) |
-| [Menú IVR](#menú-ivr) | [27](#img-27) |
-| [Llamadas en Cola](#llamadas-en-cola) | [28](#img-28) |
-| [Instalación de MariaDB](#instalación-de-mariadb) | [29](#img-29)–[34](#img-34) |
-| [Tarificación](#tarificación) | [35](#img-35)–[36](#img-36) |
-| [www.marchel.com](#wwwmarchelcom) | [37](#img-37)–[42](#img-42) |
+| [Menú IVR](#menu-ivr) | [27](#img-27) |
+| [Llamadas en Cola](#llamadas-cola) | [28](#img-28) |
+| [Instalación de MariaDB](#instalacion-mariadb) | [29](#img-29)–[34](#img-34) |
+| [Tarificación](#tarificacion) | [35](#img-35)–[36](#img-36) |
+| [www.marchel.com](#web-marchel) | [37](#img-37)–[42](#img-42) |
 
 ---
+
+<a id="anexo-zoiper"></a>
 
 ## 📎 Anexo: Zoiper (detalle)
 
 Zoiper es una aplicación VoIP gratuita compatible con Asterisk.
 
+<a id="descargar-zoiper"></a>
+
 ### Descargar Zoiper
 
 - **Android/iOS**: Busca "Zoiper" en la tienda de aplicaciones
 - **Desktop**: [https://www.zoiper.com/en/voip-softphone/download/current](https://www.zoiper.com/en/voip-softphone/download/current)
+
+<a id="configurar-usuario"></a>
 
 ### Configurar usuario
 
@@ -1739,6 +1793,8 @@ Zoiper es una aplicación VoIP gratuita compatible con Asterisk.
    - Puerto: `5060` (por defecto)
 4. **Verificar conexión**: Debe aparecer "Registered" o "Online"
 
+<a id="realizar-llamadas"></a>
+
 ### Realizar llamadas
 
 - Para llamar a otro usuario, marca su extensión (ej: `2002`)
@@ -1748,6 +1804,8 @@ Zoiper es una aplicación VoIP gratuita compatible con Asterisk.
 - Para llamar a otra PBX, marca extensiones como `6001`, `6002`, etc.
 
 ---
+
+<a id="arquitectura-sistema"></a>
 
 ## 🏗️ Arquitectura del Sistema
 
@@ -1783,9 +1841,13 @@ Zoiper es una aplicación VoIP gratuita compatible con Asterisk.
 
 ---
 
+<a id="contribuciones-sugerencias"></a>
+
 ## 💡 Contribuciones y Sugerencias
 
 Este proyecto fue desarrollado como parte de un trabajo universitario. Si tienes sugerencias, comentarios o detectas algún error en la documentación, nos encantaría conocer tu opinión.
+
+<a id="contacto"></a>
 
 ### 📧 Contacto:
 
@@ -1805,6 +1867,8 @@ Estaremos encantados de recibir tu feedback sobre:
 - ✅ Experiencias al implementar esta guía
 
 ---
+
+<a id="autores"></a>
 
 ## 👥 Autores
 
@@ -1841,11 +1905,15 @@ Este proyecto fue desarrollado como **Práctica 2** de la asignatura *Laboratori
 
 ---
 
+<a id="conclusion"></a>
+
 ## ✅ Conclusión
 
 La guía del repositorio queda alineada con la memoria de la práctica en el orden de implementación: instalación base, usuarios, Zoiper, módulos de telefonía, integración con MariaDB, tarificación y despliegue web. Esta secuencia permite reproducir la solución completa de Marchel desde cero y validar cada fase de forma incremental.
 
 ---
+
+<a id="bibliografia"></a>
 
 ## 📚 Bibliografía
 
@@ -1860,6 +1928,8 @@ La guía del repositorio queda alineada con la memoria de la práctica en el ord
 
 ---
 
+<a id="licencia"></a>
+
 ## 📝 Licencia
 
 Este proyecto está publicado bajo la licencia **MIT**, por lo que cualquiera puede usarlo, copiarlo, modificarlo y redistribuirlo.
@@ -1867,6 +1937,8 @@ Este proyecto está publicado bajo la licencia **MIT**, por lo que cualquiera pu
 Consulta el archivo [LICENSE](LICENSE) para el texto legal completo.
 
 ---
+
+<a id="agradecimientos"></a>
 
 ## 🙏 Agradecimientos
 
@@ -1877,7 +1949,11 @@ Consulta el archivo [LICENSE](LICENSE) para el texto legal completo.
 
 ---
 
+<a id="notas-adicionales"></a>
+
 ## 📝 Notas Adicionales
+
+<a id="comandos-utiles-asterisk"></a>
 
 ### Comandos útiles de Asterisk
 
@@ -1907,6 +1983,8 @@ asterisk -rx "confbridge list"
 asterisk -rx "pjsip set logger on"
 asterisk -rx "core set verbose 5"
 ```
+
+<a id="solucion-problemas-comunes"></a>
 
 ### Solución de problemas comunes
 
