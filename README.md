@@ -223,6 +223,14 @@ sudo contrib/scripts/install_prereq install
 sudo ./configure
 ```
 
+<a id="img-01"></a>
+
+![Imagen 1 - Instalación Asterisk completada](assets/readme/pdf/imagen-01-instalacion-asterisk-completada.png)
+
+<a id="img-02"></a>
+
+![Imagen 2 - Configuración de Asterisk](assets/readme/pdf/imagen-02-configuracion-de-asterisk.png)
+
 Asegúrate de habilitar los módulos necesarios:
 
 ```bash
@@ -233,16 +241,6 @@ En el menú, verifica que estén habilitados:
 - **Add-ons**: `res_config_mysql`, `cdr_mysql`
 - **Resource Modules**: `res_odbc`, `res_config_odbc`
 - **Applications**: `app_festival`
-
-Guarda y sal con `Save & Exit`.
-
-<a id="img-01"></a>
-
-![Imagen 1 - Instalación Asterisk completada](assets/readme/pdf/imagen-01-instalacion-asterisk-completada.png)
-
-<a id="img-02"></a>
-
-![Imagen 2 - Configuración de Asterisk](assets/readme/pdf/imagen-02-configuracion-de-asterisk.png)
 
 <a id="img-03"></a>
 
@@ -272,25 +270,36 @@ Guarda y sal con `Save & Exit`.
 
 ![Imagen 9 - Menú de configuraciones de Asterisk (7)](assets/readme/pdf/imagen-09-menu-de-configuraciones-de-asterisk-7.png)
 
+Guarda y sal con `Save & Exit`.
+
+Compila Asterisk usando todos los núcleos disponibles:
+
+```bash
+sudo make -j$(nproc)
+```
+
 <a id="img-10"></a>
 
 ![Imagen 10 - Instalación de configuraciones de Asterisk mediante el Makefile](assets/readme/pdf/imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png)
+
+#### Compilar e instalar
+
+Instala Asterisk en el sistema:
+
+```bash
+sudo make install
+```
 
 <a id="img-11"></a>
 
 ![Imagen 11 - Instalación de la configuración de Asterisk completada](assets/readme/pdf/imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png)
 
-<a id="img-12"></a>
-
-![Imagen 12 - Interfaz de Asterisk en modo verboso](assets/readme/pdf/imagen-12-interfaz-de-asterisk-en-modo-verboso.png)
-
-#### Compilar e instalar
+Después instala los archivos de ejemplo y registra la configuración del servicio:
 
 ```bash
-sudo make -j$(nproc)
-sudo make install
 sudo make samples
 sudo make config
+sudo ldconfig
 ```
 
 #### Crear usuario y grupo Asterisk
@@ -301,11 +310,24 @@ sudo useradd -r -d /var/lib/asterisk -g asterisk asterisk
 sudo usermod -aG audio,dialout asterisk
 ```
 
-#### Configurar permisos
-
-Edita `/etc/default/asterisk` y descomenta:
+Alternativamente, también puedes crear el usuario de sistema con el comando que aparece en la memoria original:
 
 ```bash
+sudo adduser --system --group --no-create-home --disabled-login asterisk
+```
+
+#### Configurar permisos
+
+Abre el archivo:
+
+```bash
+sudo vim /etc/default/asterisk
+```
+
+Y descomenta:
+
+```ini
+
 AST_USER="asterisk"
 AST_GROUP="asterisk"
 ```
@@ -316,6 +338,8 @@ Asigna permisos:
 sudo chown -R asterisk:asterisk /etc/asterisk
 sudo chown -R asterisk:asterisk /var/{lib,log,spool}/asterisk
 sudo chown -R asterisk:asterisk /usr/lib/asterisk
+sudo chmod -R 750 /etc/asterisk
+sudo chmod -R 750 /var/{lib,log,spool}/asterisk
 ```
 
 #### Iniciar Asterisk
@@ -331,6 +355,32 @@ Accede a la consola de Asterisk:
 
 ```bash
 sudo asterisk -rvvv
+```
+
+<a id="img-12"></a>
+
+![Imagen 12 - Interfaz de Asterisk en modo verboso](assets/readme/pdf/imagen-12-interfaz-de-asterisk-en-modo-verboso.png)
+
+#### Comprobación y recarga de configuración
+
+Para revisar rápidamente los archivos de configuración disponibles:
+
+```bash
+ls /etc/asterisk
+```
+
+Para editar un archivo concreto, por ejemplo el dialplan:
+
+```bash
+sudo vim /etc/asterisk/extensions.conf
+```
+
+Siempre que modifiques un archivo de configuración, conviene recargar Asterisk o el módulo correspondiente desde la CLI:
+
+```bash
+sudo asterisk -rx "core reload"
+sudo asterisk -rx "dialplan reload"
+sudo asterisk -rx "pjsip reload"
 ```
 
 #### Configurar el Firewall
@@ -361,6 +411,12 @@ sudo ufw status
 ### 2. Creación de Usuarios
 
 #### Editar `/etc/asterisk/pjsip.conf`
+
+Abre el archivo con:
+
+```bash
+sudo vim /etc/asterisk/pjsip.conf
+```
 
 Configura el protocolo de transporte UDP:
 
@@ -499,7 +555,11 @@ sudo mkdir -p /var/lib/asterisk/sounds/es
 
 #### Descargar paquetes de audio en español
 
-Desde [https://www.sinologic.net/proyectos/vocesbak/](https://www.sinologic.net/proyectos/vocesbak/)
+Una vez creada la carpeta, el siguiente paso es descargar el idioma. En [https://www.sinologic.net/proyectos/vocesbak/](https://www.sinologic.net/proyectos/vocesbak/) encontrarás varias opciones; en esta práctica se usa la extensión GSM y se descargan ambos paquetes para evitar que falten audios.
+
+<a id="img-21"></a>
+
+![Imagen 21 - Voces en español para Asterisk](assets/readme/pdf/imagen-21-voces-esp-asterisk.png)
 
 ```bash
 cd /var/lib/asterisk/sounds/es
@@ -527,10 +587,6 @@ sudo mv phonetic/es/* phonetic/
 sudo mv silence/es/* silence/
 ```
 
-<a id="img-21"></a>
-
-![Imagen 21 - Voces en español para Asterisk](assets/readme/pdf/imagen-21-voces-esp-asterisk.png)
-
 <a id="img-22"></a>
 
 ![Imagen 22 - Ejemplo visual de carpetas de audios del idioma español](assets/readme/pdf/imagen-22-ejemplo-visual-de-carpetas-de-audios-del-idioma-espanol.png)
@@ -541,6 +597,18 @@ sudo mv silence/es/* silence/
 sudo chmod -R 755 /var/lib/asterisk/sounds/es
 sudo chown -R asterisk:asterisk /var/lib/asterisk/sounds/es
 ```
+
+#### Activar el idioma en `pjsip.conf`
+
+Una vez descargados y ordenados los audios, añade el idioma global en la configuración SIP:
+
+```ini
+[global]
+type=global
+language=es
+```
+
+Si trabajas con varias carpetas de idioma como `es`, `en`, `fr` o `es1`, el valor de `language` debe coincidir exactamente con el nombre de la carpeta que quieres usar.
 
 ---
 
@@ -613,22 +681,23 @@ exten => 2001,n,MusicOnHold(default)
 
 ```ini
 [featuremap]
-blindxfer => *1        ; Transferencia ciega
-atxfer => *2           ; Transferencia asistida
-automon => *3          ; Grabación automática
+blindxfer => ##        ; Transferencia ciega
+atxfer => **           ; Transferencia asistida
+disconnect => *0       ; Colgar llamada
+automixmon => *3       ; Grabación automática
 ```
 
 #### Habilitar en el dialplan
 
 ```ini
-exten => 2001,n,Dial(PJSIP/2001,20,tTwW)
+exten => 2001,n,Dial(PJSIP/2001,30,Tt)
 ```
 
 Opciones:
 - `t`: Permite transferencias para quien llama
 - `T`: Permite transferencias para quien recibe
-- `w`: Permite grabación para quien llama
-- `W`: Permite grabación para quien recibe
+- `disconnect => *0`: Permite finalizar la llamada desde el teclado
+- `automixmon => *3`: Permite iniciar la grabación bajo demanda
 
 <a id="img-23"></a>
 
@@ -636,44 +705,45 @@ Opciones:
 
 #### Conferencias
 
+La memoria sitúa primero la vista de los controles de conferencia y después la configuración de `confbridge.conf`.
+
+<a id="img-24"></a>
+
+![Imagen 24 - Menús de control de usuario del archivo confbridge.conf](assets/readme/pdf/imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png)
+
 #### Editar `/etc/asterisk/confbridge.conf`
 
 ```ini
-[user]
+[default_user]
 type=user
 admin=no
-pin=1234
-marked=no
 wait_marked=no
 end_marked=no
+pin=1234
 
-[admin]
+[default_admin]
 type=user
 admin=yes
 pin=5678
 marked=yes
 
-[bridge]
+[default_bridge]
 type=bridge
-language=es
+language=es1
 max_members=10
 ```
 
 #### Añadir al dialplan
 
 ```ini
-exten => 3000,1,Answer()
-same => n,ConfBridge(1,bridge,user)
+exten => 9000,1,Answer()
+same => n,ConfBridge(1,default_bridge,default_user)
 same => n,Hangup()
 
-exten => 3001,1,Answer()
-same => n,ConfBridge(1,bridge,admin)
+exten => 9001,1,Answer()
+same => n,ConfBridge(1234,default_bridge,default_admin)
 same => n,Hangup()
 ```
-
-<a id="img-24"></a>
-
-![Imagen 24 - Menús de control de usuario del archivo confbridge.conf](assets/readme/pdf/imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png)
 
 ### Grabación de Llamadas
 
@@ -697,7 +767,7 @@ El parámetro `b` indica que la mezcla se realiza al finalizar la llamada (más 
 
 #### Grabación bajo demanda
 
-Con la opción `w`/`W` en `Dial()` y los códigos de `features.conf`, los usuarios pueden iniciar/detener la grabación marcando `*3` durante la llamada (según lo configurado en `automon`).
+Con los códigos definidos en `features.conf`, los usuarios pueden iniciar o detener la grabación marcando `*3` durante la llamada, según lo configurado en `automixmon`.
 
 #### Asignar permisos al directorio
 
@@ -717,6 +787,7 @@ sudo chmod 750 /var/spool/asterisk/monitor
 
 ```bash
 sudo apt install -y festival festvox-ellpc11k
+sudo systemctl stop asterisk
 ```
 
 #### Configurar Festival
@@ -738,13 +809,15 @@ Crea `/etc/systemd/system/festival.service`:
 ```ini
 [Unit]
 Description=Festival Speech Synthesis Server
-After=network.target
+Wants=network.target
+After=syslog.target network-online.target
 
 [Service]
 Type=simple
-User=festival
 ExecStart=/usr/bin/festival --server
-Restart=always
+Restart=on-failure
+RestartSec=10
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target
@@ -756,6 +829,7 @@ WantedBy=multi-user.target
 cd /tmp
 wget https://github.com/franjvasquezg/festival-spanish-voices/releases/download/1.0/es_voices.tar.gz
 sudo tar -xvzf es_voices.tar.gz -C /usr/share/festival/voices/spanish/
+ls /usr/share/festival/voices/spanish/
 ```
 
 #### Configurar `/etc/festival.scm`
@@ -770,6 +844,7 @@ sudo tar -xvzf es_voices.tar.gz -C /usr/share/festival/voices/spanish/
 [general]
 host=localhost
 port=1314
+festivalcommand=(tts_textasterisk "%s" 'file)(quit)\n
 ```
 
 #### Iniciar Festival
@@ -777,16 +852,15 @@ port=1314
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable festival
-sudo systemctl start festival
+sudo systemctl restart festival.service
+sudo /etc/init.d/asterisk start
+sudo reboot
+sudo systemctl status festival.service
 ```
 
 <a id="img-25"></a>
 
 ![Imagen 25 - Comprobación de que festival está activo](assets/readme/pdf/imagen-25-comprobacion-de-que-festival-esta-activo.png)
-
-<a id="img-26"></a>
-
-![Imagen 26 - Comprobación de que Festival se ha configurado correctamente en Asterisk](assets/readme/pdf/imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png)
 
 #### Usar en el dialplan
 
@@ -795,6 +869,23 @@ exten => 9000,1,Answer()
 same => n,Festival("Bienvenido a la central Marchel")
 same => n,Hangup()
 ```
+
+#### Comprobar Festival desde Asterisk
+
+```bash
+sudo asterisk -rvvvvv
+```
+
+Y dentro de la CLI de Asterisk ejecuta:
+
+```text
+core show application festival
+dialplan reload
+```
+
+<a id="img-26"></a>
+
+![Imagen 26 - Comprobación de que Festival se ha configurado correctamente en Asterisk](assets/readme/pdf/imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png)
 
 #### Menú IVR
 
@@ -822,36 +913,33 @@ type=aor
 max_contacts=1
 ```
 
+#### Enrutar a la operadora desde `office-phone`
+
+```ini
+[office-phone]
+exten => 1010,1,Goto(operadora-menu,s,1)
+```
+
 #### Configurar menú en `extensions.conf`
 
 ```ini
 [operadora-menu]
 exten => s,1,Answer()
-same => n,Set(TIMEOUT(digit)=5)
-same => n,Set(TIMEOUT(response)=10)
-same => n(menu),Background(custom/bienvenida)
+same => n,Playback(custom/BienvenidoMenu)
+same => n,Read(NUMBER,beep,9)
+same => n,Playback(custom/NumCorrectos)
+same => n,SayDigits(${NUMBER})
 same => n,WaitExten()
 
-; Opción 1: Soporte técnico
 exten => 1,1,Goto(soporte-tecnico,s,1)
+exten => 2,1,Goto(s,2)
 
-; Opción 2: Información de tarifas
-exten => 2,1,Answer()
-same => n,Festival("Las tarifas son de 0.05 euros por minuto")
-same => n,Goto(operadora-menu,s,menu)
+exten => i,1,Verbose(1,Extension Invalida)
+same => n,Playback(custom/OpcionVal)
+same => n,Goto(s,6)
 
-; Opción 3: Buzón de voz
-exten => 3,1,VoiceMailMain(@default)
-same => n,Hangup()
-
-; Opción 0: Volver a escuchar el menú
-exten => 0,1,Goto(operadora-menu,s,menu)
-
-; Timeout o entrada inválida
-exten => i,1,Playback(invalid)
-same => n,Goto(operadora-menu,s,menu)
-
-exten => t,1,Playback(vm-goodbye)
+exten => t,1,Verbose(1,Colgado por Timeout)
+same => n,Congestion(3)
 same => n,Hangup()
 ```
 
@@ -861,20 +949,43 @@ same => n,Hangup()
 
 #### Llamadas en Cola
 
+#### Crear agentes de soporte en `pjsip.conf`
+
+```ini
+[1001-support]
+type=endpoint
+context=soporte-tecnico
+disallow=all
+allow=ulaw
+auth=1001-auth
+aors=1001-support
+
+[1001-auth]
+type=auth
+auth_type=userpass
+username=1001-support
+password=Hola123
+
+[1001-support]
+type=aor
+max_contacts=1
+```
+
+Repite la misma estructura para `1002-support` y `1003-support`.
+
 #### Editar `/etc/asterisk/queues.conf`
 
 ```ini
 [soporte-tecnico]
-strategy=rrmemory
-timeout=30
+musicclass=default
+strategy=leastrecent
+timeout=15
 retry=5
-maxlen=10
-announce-frequency=60
-announce-holdtime=yes
-music=default
-member => PJSIP/2001
-member => PJSIP/2002
-member => PJSIP/2003
+maxlen=5
+wrapuptime=10
+member => PJSIP/1001-support
+member => PJSIP/1002-support
+member => PJSIP/1003-support
 ```
 
 Estrategias disponibles:
@@ -889,7 +1000,7 @@ Estrategias disponibles:
 ```ini
 [soporte-tecnico]
 exten => s,1,Answer()
-same => n,Queue(soporte-tecnico,tTwW)
+same => n,Queue(soporte-tecnico,tT)
 same => n,Hangup()
 ```
 
@@ -1114,15 +1225,41 @@ Una vez configurado:
 #### Instalar MariaDB
 
 ```bash
+sudo apt update && sudo apt upgrade -y
 sudo apt install -y mariadb-server mariadb-client
 sudo systemctl enable mariadb
 sudo systemctl start mariadb
-sudo mysql_secure_installation
+sudo systemctl status mariadb
 ```
 
 <a id="img-29"></a>
 
 ![Imagen 29 - Comprobación de que MariaDB se encuentra activa](assets/readme/pdf/imagen-29-comprobacion-de-que-mariadb-se-encuentra-activa.png)
+
+#### Asegurar MariaDB
+
+```bash
+sudo mysql_secure_installation
+```
+
+Configuración recomendada durante el asistente:
+- `Set root password?` → `Sí`
+- `Remove anonymous users?` → `Sí`
+- `Disallow root login remotely?` → `Sí`
+- `Remove test database?` → `Sí`
+- `Reload privilege tables now?` → `Sí`
+
+Si necesitas dejar la autenticación lista para entrar siempre con contraseña, puedes revisar el usuario `root` con:
+
+```bash
+sudo mysql -u root
+```
+
+```sql
+UPDATE mysql.user SET plugin = '' WHERE user = 'root';
+FLUSH PRIVILEGES;
+EXIT;
+```
 
 #### Crear base de datos y usuario
 
@@ -1131,16 +1268,23 @@ sudo mysql -u root -p
 ```
 
 ```sql
-CREATE DATABASE asterisk_cdr;
-CREATE USER 'asterisk'@'localhost' IDENTIFIED BY 'password123';
-GRANT ALL PRIVILEGES ON asterisk_cdr.* TO 'asterisk'@'localhost';
+CREATE DATABASE asterisk;
+CREATE USER 'asterisk'@'localhost' IDENTIFIED BY 'contraseña';
+GRANT ALL PRIVILEGES ON asterisk.* TO 'asterisk'@'localhost';
 FLUSH PRIVILEGES;
+SELECT user, host FROM mysql.user;
 EXIT;
 ```
 
 <a id="img-30"></a>
 
 ![Imagen 30 - Comprobación de creación del usuario asterisk dentro de MariaDB](assets/readme/pdf/imagen-30-comprobacion-de-creacion-del-usuario-asterisk-dentro-de-mariadb.png)
+
+Para comprobar los permisos otorgados:
+
+```sql
+SHOW GRANTS FOR 'asterisk'@'localhost';
+```
 
 <a id="img-31"></a>
 
@@ -1151,7 +1295,7 @@ EXIT;
 > ⚠️ Esta tabla incluye las columnas `coste` y `tarificado` necesarias para el script de tarificación.
 
 ```sql
-USE asterisk_cdr;
+USE asterisk;
 
 CREATE TABLE cdr (
     calldate DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1173,6 +1317,8 @@ CREATE TABLE cdr (
     coste DECIMAL(10,4) NOT NULL DEFAULT 0.0000,
     tarificado TINYINT(1) NOT NULL DEFAULT 0
 );
+
+DESCRIBE cdr;
 ```
 
 <a id="img-32"></a>
@@ -1182,31 +1328,38 @@ CREATE TABLE cdr (
 #### Instalar ODBC
 
 ```bash
-sudo apt install -y unixodbc unixodbc-dev libmyodbc
+sudo apt install -y unixodbc unixodbc-dev odbcinst
+sudo apt install -y build-essential uuid-dev libjansson-dev libxml2-dev libsqlite3-dev
+sudo apt install -y libmariadb-dev libmariadb-dev-compat
 ```
+
+Si tu sistema no trae ya el driver adecuado, instala también el conector ODBC de MySQL/MariaDB que corresponda con tu distribución.
 
 #### Configurar ODBC
 
 Edita `/etc/odbcinst.ini`:
 
 ```ini
-[MySQL]
-Description = MySQL driver
-Driver = /usr/lib/x86_64-linux-gnu/odbc/libmyodbc8w.so
-Setup = /usr/lib/x86_64-linux-gnu/odbc/libodbcmyS.so
-FileUsage = 1
+[MySQL ODBC 9.2 Unicode Driver]
+Description=MySQL ODBC 9.2 Unicode Driver para Asterisk
+Driver=/usr/lib/x86_64-linux-gnu/odbc/libmyodbc9w.so
+UsageCount=1
+FileUsage=1
 ```
 
 Edita `/etc/odbc.ini`:
 
 ```ini
-[asterisk-connector]
-Description = MySQL connection to asterisk database
-Driver = MySQL
-Database = asterisk_cdr
-Server = localhost
-Port = 3306
-Socket = /var/run/mysqld/mysqld.sock
+[asterisk]
+Driver=MySQL ODBC 9.2 Unicode Driver
+Description=MySQL ODBC Connection with Asterisk
+Server=localhost
+Database=asterisk
+User=asterisk
+Password=contraseña
+Port=3306
+Option = 3
+Socket=/var/run/mysqld/mysqld.sock
 ```
 
 #### Configurar Asterisk
@@ -1216,9 +1369,9 @@ Edita `/etc/asterisk/res_odbc.conf`:
 ```ini
 [asterisk]
 enabled => yes
-dsn => asterisk-connector
+dsn => asterisk
 username => asterisk
-password => password123
+password => contraseña
 pre-connect => yes
 ```
 
@@ -1228,17 +1381,56 @@ Edita `/etc/asterisk/cdr_adaptive_odbc.conf`:
 [first]
 connection=asterisk
 table=cdr
+alias start => calldate
+```
+
+Edita `/etc/asterisk/cdr_odbc.conf`:
+
+```ini
+[asterisk]
+dsn=asterisk
+username=asterisk
+password=contraseña
+loguniqueid=yes
+dispositionstring=yes
+table=cdr
+usegmtime=no
+```
+
+Edita `/etc/asterisk/cdr.conf`:
+
+```ini
+[general]
+enable=yes
+usegmtime=no
+loguniqueid=yes
+```
+
+Edita `/etc/asterisk/extconfig.conf`:
+
+```ini
+[settings]
+cdr => odbc,asterisk,cdr
 ```
 
 #### Verificar conexión
 
+Comprueba primero la conexión ODBC desde el sistema:
+
 ```bash
-asterisk -rx "odbc show"
+isql -v asterisk
 ```
 
 <a id="img-33"></a>
 
 ![Imagen 33 - Comprobación de que MariaDB se ha conectado correctamente a Asterisk](assets/readme/pdf/imagen-33-comprobacion-de-que-mariadb-se-ha-conectado-correctamente-a-asterisk.png)
+
+Después reinicia Asterisk y revisa el estado del conector:
+
+```bash
+sudo systemctl restart asterisk
+asterisk -rx "odbc show"
+```
 
 <a id="img-34"></a>
 
@@ -1247,6 +1439,55 @@ asterisk -rx "odbc show"
 #### Tarificación
 
 El repositorio incluye el script de tarificación en `scripts/tarificar.py`, que procesa registros CDR y calcula costes automáticamente.
+
+#### Crear tabla de tarifas
+
+```sql
+CREATE TABLE tarifas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    destino VARCHAR(80) NOT NULL,
+    horario VARCHAR(20) NOT NULL,
+    costo_por_minuto DECIMAL(10,4) NOT NULL
+);
+```
+
+#### Insertar precios base
+
+```sql
+INSERT INTO tarifas (destino, horario, costo_por_minuto) VALUES
+('nacional', 'normal', 0.05),
+('nacional', 'nocturno', 0.02),
+('internacional', 'normal', 0.15),
+('internacional', 'nocturno', 0.10);
+```
+
+#### Consulta base del proceso de tarificación
+
+```sql
+SELECT
+    c.uniqueid,
+    c.src,
+    c.dst,
+    c.duration,
+    t.costo_por_minuto
+FROM cdr c
+JOIN tarifas t
+  ON (CASE
+        WHEN c.dst LIKE '2%' OR c.dst LIKE '200%' THEN 'nacional'
+        WHEN c.dst LIKE '6%' OR c.dst LIKE '600%' THEN 'internacional'
+      END) = t.destino
+ AND (CASE
+        WHEN HOUR(c.calldate) BETWEEN 8 AND 19 THEN 'normal'
+        ELSE 'nocturno'
+      END) = t.horario;
+```
+
+#### Inserción en facturación
+
+```sql
+INSERT INTO facturacion (uniqueid, src, dst, duracion, costo, fecha)
+VALUES (%s, %s, %s, %s, %s, %s);
+```
 
 #### Correspondencia de nombres de archivos (PDF ↔ repositorio)
 
@@ -1266,6 +1507,24 @@ sudo cp scripts/tarificar.py /usr/local/bin/tarificar.py
 sudo chmod 755 /usr/local/bin/tarificar.py
 ```
 
+Si quieres comprobar cómo deberían quedar los datos tras varias llamadas, puedes consultar la tabla de facturación y el total mensual por usuario:
+
+```sql
+SELECT * FROM facturacion ORDER BY fecha DESC;
+
+SELECT
+    src,
+    SUM(costo) AS costo_total
+FROM facturacion
+WHERE src = '2001-softphone'
+  AND fecha >= CURDATE() - INTERVAL 1 MONTH
+GROUP BY src;
+```
+
+<a id="img-35"></a>
+
+![Imagen 35 - Ejemplo de datos almacenados en base de datos tras las llamadas](assets/readme/pdf/imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png)
+
 Automatización con CRON:
 
 ```bash
@@ -1277,10 +1536,6 @@ Añadir:
 ```cron
 */5 * * * * /usr/bin/python3 /usr/local/bin/tarificar.py >> /var/log/tarificar.log 2>&1
 ```
-
-<a id="img-35"></a>
-
-![Imagen 35 - Ejemplo de datos almacenados en base de datos tras las llamadas](assets/readme/pdf/imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png)
 
 <a id="img-36"></a>
 
@@ -1334,6 +1589,12 @@ python app/web/app.py
 
 En el repositorio, la aplicación ya está implementada en `app/web/app.py` y usa variables de entorno definidas en `.env`.
 
+La primera pantalla es un acceso autenticado donde el abonado introduce su número y la contraseña entregada por la compañía.
+
+<a id="img-37"></a>
+
+![Imagen 37 - Web Inicio de Sesión](assets/readme/pdf/imagen-37-web-inicio-de-sesion.png)
+
 Para ejecutarla como servicio en producción, crea `/etc/systemd/system/marchel-web.service`:
 
 ```ini
@@ -1360,25 +1621,31 @@ sudo systemctl start marchel-web
 
 Accede en el navegador: `http://<IP_SERVIDOR>:5050`
 
-<a id="img-37"></a>
-
-![Imagen 37 - Web Inicio de Sesión](assets/readme/pdf/imagen-37-web-inicio-de-sesion.png)
+Una vez dentro, la pestaña principal resume el coste mensual acumulado y el total de llamadas del usuario.
 
 <a id="img-38"></a>
 
 ![Imagen 38 - Web Panel Principal](assets/readme/pdf/imagen-38-web-panel-principal.png)
 
+La pestaña de estadísticas reúne gráficos sobre uso por días, horas, destinos más frecuentes e impacto relativo del abonado en la red.
+
 <a id="img-39"></a>
 
 ![Imagen 39 - Web Estadísticas](assets/readme/pdf/imagen-39-web-estadisticas.png)
+
+En tarifas, el usuario consulta los precios configurados por destino y franja horaria.
 
 <a id="img-40"></a>
 
 ![Imagen 40 - Web Tarifas](assets/readme/pdf/imagen-40-web-tarifas.png)
 
+En historial se muestran todas las llamadas realizadas con su duración y coste asociado.
+
 <a id="img-41"></a>
 
 ![Imagen 41 - Web Historial](assets/readme/pdf/imagen-41-web-historial.png)
+
+La pestaña de tendencias presenta la evolución mensual del coste, duración media y número total de llamadas de los últimos meses.
 
 <a id="img-42"></a>
 
