@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marchel - Estadísticas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container statistics-container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo-marchel.png') }}" alt="Marchel Logo">
+        </div>
+        <h2>Estadísticas de Llamadas</h2>
+        
+        <div class="nav-tabs">
+            <a href="{{ url_for('dashboard') }}">Panel Principal</a>
+            <a href="{{ url_for('estadisticas') }}" class="active">Estadísticas</a>
+            <a href="{{ url_for('tarifas') }}">Tarifas</a>
+            <a href="{{ url_for('historial') }}">Historial</a>
+            <a href="{{ url_for('tendencias') }}">Tendencias</a>
+        </div>
+        
+        <div class="comparison-card">
+            <h3>Comparativa con otros usuarios</h3>
+            <div class="chart-container">
+                <canvas id="comparacionChart"></canvas>
+            </div>
+            <p class="comparison-text">
+                Has realizado <strong>{{ datos.llamadas_usuario }}</strong> llamadas este mes.
+                El promedio entre usuarios es de <strong>{{ "%.1f"|format(datos.promedio_llamadas) }}</strong> llamadas.
+            </p>
+        </div>
+        
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Llamadas por día de la semana</h3>
+                <canvas id="diasChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Llamadas por hora del día</h3>
+                <canvas id="horasChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="chart-card" style="height: 50vh;">
+            <h3>Destinos más frecuentes</h3>
+            <canvas id="destinosChart"></canvas>
+        </div>
+        
+        <a href="{{ url_for('logout') }}" class="logout-btn">Cerrar Sesión</a>
+    </div>
+    
+    <script>
+        // Datos para los gráficos
+        const comparacionData = {
+            labels: ['Tu uso', 'Promedio'],
+            datasets: [{
+                label: 'Llamadas realizadas',
+                data: [{{ datos.llamadas_usuario }}, {{ datos.promedio_llamadas }}],
+                backgroundColor: ['#2EA44F', '#999999'],
+                borderWidth: 0
+            }]
+        };
+        
+        const diasData = {
+            labels: [{% for dia in datos.llamadas_por_dia %}'{{ dia.dia_semana }}',{% endfor %}],
+            datasets: [{
+                label: 'Llamadas por día',
+                data: [{% for dia in datos.llamadas_por_dia %}{{ dia.total_llamadas }},{% endfor %}],
+                backgroundColor: '#2EA44F',
+                borderColor: '#1C7D36',
+                borderWidth: 1
+            }]
+        };
+        
+        const horasData = {
+            labels: [{% for hora in datos.llamadas_por_hora %}'{{ hora.hora }}h',{% endfor %}],
+            datasets: [{
+                label: 'Llamadas por hora',
+                data: [{% for hora in datos.llamadas_por_hora %}{{ hora.total_llamadas }},{% endfor %}],
+                backgroundColor: '#5ACA78',
+                borderColor: '#2EA44F',
+                borderWidth: 1,
+                fill: true
+            }]
+        };
+        
+        const destinosData = {
+            labels: [{% for destino in datos.destinos_frecuentes %}'{{ destino.dst }}',{% endfor %}],
+            datasets: [{
+                label: 'Número de llamadas',
+                data: [{% for destino in datos.destinos_frecuentes %}{{ destino.total_llamadas }},{% endfor %}],
+                backgroundColor: [
+                    '#2EA44F', '#5ACA78', '#A8D7A8', '#BCE2BC', '#D5ECD5'
+                ],
+                borderWidth: 0
+            }]
+        };
+        
+        // Configuración de los gráficos
+        window.onload = function() {
+            // Gráfico de comparación
+            new Chart(document.getElementById('comparacionChart'), {
+                type: 'bar',
+                data: comparacionData,
+                options: {
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico por días
+            new Chart(document.getElementById('diasChart'), {
+                type: 'bar',
+                data: diasData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico por horas
+            new Chart(document.getElementById('horasChart'), {
+                type: 'line',
+                data: horasData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de destinos
+            new Chart(document.getElementById('destinosChart'), {
+                type: 'pie',
+                data: destinosData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

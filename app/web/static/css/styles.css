@@ -1,0 +1,400 @@
+/* Variables globales */
+:root {
+  --primary-color: #2EA44F;    /* Main green color replacing #FF7300 */
+  --primary-dark: #1C7D36;     /* Darker green replacing #D95D00 */
+  --primary-light: #5ACA78;    /* Lighter green replacing #FFA559 */
+  --text-color: #333333;       /* Keeping the same text color */
+  --bg-light: #FFFFFF;         /* Keeping the same background color */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+  --transition: all 0.3s ease;
+}
+body {
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+}
+
+/* Contenedores principales */
+.login-container, .dashboard-container {
+  background: var(--bg-light);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+
+}
+
+.dashboard-container {
+  max-width: 800px;
+}
+
+/* Logo */
+.logo-container {
+  margin: -1rem auto 1rem;
+  width: 80px;
+  height: 80px;
+}
+
+.logo-container img {
+  width: 100%;
+  height: auto;
+}
+
+/* Formulario */
+h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input {
+  padding: 12px 15px;
+  border-radius: var(--radius);
+  border: 1px solid #e0e0e0;
+  background: #f7f7f7;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 115, 0, 0.1);
+}
+
+button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Dashboard stats */
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.stat-card {
+  background: #f9f9f9;
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  text-align: left;
+  border-left: 4px solid var(--primary-color);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.stat-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* Enlaces */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Decoration */
+.login-container::before, .dashboard-container::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 100px;
+  height: 100px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-container, .dashboard-container, .stat-card {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+/* Contenedor para las páginas de estadísticas */
+.statistics-container, .tarifas-container {
+  max-width: 800px;
+}
+
+/* Navegación por pestañas */
+.nav-tabs {
+  display: flex;
+  overflow-x: auto;
+  background: #f5f5f5;
+  border-radius: var(--radius);
+  margin: 1rem 0 2rem;
+}
+
+.nav-tabs a {
+  padding: 0.8rem 1rem;
+  margin: 0;
+  color: #666;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  transition: var(--transition);
+  border-bottom: 3px solid transparent;
+}
+
+.nav-tabs a.active {
+  color: var(--primary-color);
+  border-bottom: 3px solid var(--primary-color);
+  font-weight: 600;
+}
+
+.nav-tabs a:hover:not(.active) {
+  color: var(--primary-dark);
+  background: #eeeeee;
+  text-decoration: none;
+}
+
+/* Tarjetas para gráficos */
+.chart-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.chart-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.chart-container {
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .chart-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tarjeta de comparación */
+.comparison-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.comparison-card h3 {
+  margin-top: 0;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.comparison-text {
+  text-align: center;
+  margin: 1rem 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Tablas de tarifas */
+.tarifas-table-container {
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.tarifas-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.tarifas-table th {
+  position: sticky;
+  top: 0;
+  background: #f5f5f5;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tarifas-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.tarifas-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.tarifa-precio {
+  font-weight: 600;
+  color: var(--primary-color);
+  text-align: right;
+}
+
+/* Búsqueda de tarifas */
+.search-container {
+  margin-bottom: 1.5rem;
+}
+
+#searchTarifa {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+}
+
+/* Historial de llamadas */
+.historial-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.historial-table th {
+  position: sticky;
+  top: 0;
+  background: #f5f5f5;
+  padding: 0.8rem;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.historial-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.historial-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.call-status {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-answered {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-missed {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Botón de cierre de sesión */
+.logout-btn {
+  display: block;
+  width: auto;
+  margin: 2rem auto 0;
+  padding: 0.6rem 1.5rem;
+  background-color: #f5f5f5;
+  color: #666;
+  border-radius: 999px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.logout-btn:hover {
+  background-color: #eeeeee;
+  color: var(--primary-color);
+  text-decoration: none;
+}

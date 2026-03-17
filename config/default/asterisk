@@ -1,0 +1,26 @@
+# Configuración del servicio Asterisk
+# Archivo: /etc/default/asterisk
+
+# Usuario para ejecutar Asterisk
+AST_USER="asterisk"
+
+# Grupo para ejecutar Asterisk
+AST_GROUP="asterisk"
+
+# Límite de descriptores de archivo abiertos
+# Importante para manejo de llamadas simultáneas
+# Recomendado: 65536 o mayor
+ULIMIT_OPEN_FILES=65536
+
+# Umask para permisos de archivo
+UMASK="0022"
+
+# Directorio de trabajo
+ASTETCDIR="/etc/asterisk"
+
+# Opciones adicionales al iniciar Asterisk
+# Ejemplos:
+# -p para prioridad real
+# -q para modo quiet
+# -g para usar colores en consola
+OPTIONS="-p"

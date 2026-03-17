@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="images/logo-marchel.png" alt="Logo Marchel" width="200"/>
+<img src="assets/readme/logo-marchel.png" alt="Logo Marchel" width="200"/>
 
 [![Asterisk](https://img.shields.io/badge/Asterisk-v22.2.0-orange.svg?logo=asterisk&logoColor=white)](https://www.asterisk.org/)
 [![Protocol](https://img.shields.io/badge/Protocol-PJSIP_(UDP)-blueviolet.svg)](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration+Wizard)
@@ -25,11 +25,11 @@
   <tr>
     <td align="center">
       <a href="https://www.linkedin.com/in/marcos-santos-aragón/" target="_blank">
-        <img src="images/linkedin-icon.png" alt="LinkedIn" width="50" height="50"/>
+        <img src="assets/readme/linkedin-icon.png" alt="LinkedIn" width="50" height="50"/>
       </a>
       &nbsp;&nbsp;
       <a href="mailto:marcos.santos.aragon@gmail.com" target="_blank">
-        <img src="images/email-icon.png" alt="Email" width="50" height="50"/>
+        <img src="assets/readme/email-icon.png" alt="Email" width="50" height="50"/>
       </a>
       &nbsp;&nbsp;
       <a href="https://github.com/MarcosSAuah" target="_blank">
@@ -38,11 +38,11 @@
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/chelsea-fernandez-hernandez-64a339189/" target="_blank">
-        <img src="images/linkedin-icon.png" alt="LinkedIn" width="50" height="50"/>
+        <img src="assets/readme/linkedin-icon.png" alt="LinkedIn" width="50" height="50"/>
       </a>
       &nbsp;&nbsp;
       <a href="mailto:chelseafh2003@gmail.com" target="_blank">
-        <img src="images/email-icon.png" alt="Email" width="50" height="50"/>
+        <img src="assets/readme/email-icon.png" alt="Email" width="50" height="50"/>
       </a>
       &nbsp;&nbsp;
       <a href="https://github.com/Chelseafh" target="_blank">
@@ -59,35 +59,66 @@
 
 Este proyecto implementa un sistema de telefonía IP (VoIP) completo con funcionalidades avanzadas como menús IVR, colas de llamadas, buzón de voz, conferencias, sistema de tarificación y una interfaz web de gestión.
 
+## 📘 Introducción
+
+Esta práctica fue desarrollada por dos estudiantes (los autores indicados en este repositorio) como proyecto de la asignatura *Laboratorio de Redes, Señales y Sistemas*. La implementación se realizó sobre una máquina virtual Ubuntu en VirtualBox, utilizando conectividad en modo *bridge* para facilitar la integración de red con el entorno local y las pruebas de telefonía IP entre dispositivos/softphones.
+
+Durante el desarrollo se trabajó con comandos de administración y transferencia remota como `ssh` y `scp` para configuración y despliegue. Para agilizar la operativa y reducir el uso manual continuo de consola, también se utilizó MobaXterm (Moba), centralizando sesiones remotas y transferencia de archivos en un mismo entorno.
+
+Esta guía mantiene el orden de la memoria PDF del proyecto para conservar coherencia entre ambos documentos en nombres de apartados, secuencia de explicación y alcance funcional.
+
 ---
 
 ## 📋 Tabla de Contenidos
 
-- [Características](#-características)
-- [Requisitos del Sistema](#-requisitos-del-sistema)
-- [Instalación](#-instalación)
-  - [Instalación de Asterisk](#1-instalación-de-asterisk)
-  - [Configuración de Usuarios](#2-configuración-de-usuarios)
-  - [Configuración de Idioma](#3-configuración-de-idioma)
-- [Funcionalidades](#-funcionalidades)
-  - [Buzón de Voz](#buzón-de-voz)
-  - [Música en Espera](#música-en-espera)
-  - [Transferencias de Llamadas](#transferencias-de-llamadas)
-  - [Conferencias](#conferencias)
-  - [Text-to-Speech (TTS)](#text-to-speech-tts)
-  - [Menú IVR](#menú-ivr)
-  - [Colas de Llamadas](#colas-de-llamadas)
-  - [Conexión entre PBXs](#conexión-entre-pbxs)
-  - [Base de Datos y CDR](#base-de-datos-y-cdr)
-  - [Interfaz Web](#interfaz-web)
-- [Configuración de Cliente (Zoiper)](#-configuración-de-cliente-zoiper)
-- [Arquitectura del Sistema](#-arquitectura-del-sistema)
-- [Contribuciones y Sugerencias](#-contribuciones-y-sugerencias)
-- [Autores](#-autores)
-- [Bibliografía](#-bibliografía)
-- [Licencia](#-licencia)
+- **Contenido principal**
+  - [Introducción](#-introducción)
+  - [Desarrollo de Guía](#-desarrollo-de-guía)
+    - [Instalación de Asterisk](#1-instalación-de-asterisk)
+    - [Creación de Usuarios](#2-creación-de-usuarios)
+      - [Zoiper](#3-zoiper)
+    - [Configuración del Idioma](#4-configuración-del-idioma)
+    - [Funcionalidades](#funcionalidades)
+      - [Buzón de Voz](#buzón-de-voz)
+      - [Música en Espera](#música-en-espera)
+      - [Transferencias](#transferencias)
+      - [Conferencias](#conferencias)
+      - [Texto a Voz - TTS](#texto-a-voz---tts)
+        - [Festival](#festival)
+      - [Menú IVR](#menú-ivr)
+      - [Llamadas en Cola](#llamadas-en-cola)
+      - [Conexión PBXs](#conexión-pbxs)
+      - [Instalación de MariaDB](#instalación-de-mariadb)
+      - [Tarificación](#tarificación)
+        - [www.marchel.com](#wwwmarchelcom)
+  - [Conclusión](#-conclusión)
+  - [Bibliografía](#-bibliografía)
+
+- **Mejoras y apartados añadidos**
+  - [Características](#-características)
+  - [Estructura del Repositorio](#-estructura-del-repositorio)
+  - [Requisitos del Sistema](#-requisitos-del-sistema)
+  - [Grabación de Llamadas](#grabación-de-llamadas)
+  - [Anexo: Zoiper (detalle)](#-anexo-zoiper-detalle)
+    - [Descargar Zoiper](#descargar-zoiper)
+    - [Configurar usuario](#configurar-usuario)
+    - [Realizar llamadas](#realizar-llamadas)
+  - [Mapa de imágenes (auditoría)](#-mapa-de-imágenes-auditoría)
+  - [Arquitectura del Sistema](#-arquitectura-del-sistema)
+  - [Contribuciones y Sugerencias](#-contribuciones-y-sugerencias)
+    - [Contacto](#-contacto)
+  - [Autores](#-autores)
+  - [Licencia](#-licencia)
+  - [Agradecimientos](#-agradecimientos)
+  - [Notas Adicionales](#-notas-adicionales)
+    - [Comandos útiles de Asterisk](#comandos-útiles-de-asterisk)
+    - [Solución de problemas comunes](#solución-de-problemas-comunes)
 
 ---
+
+## 🧪 Mejoras y apartados añadidos
+
+Los apartados siguientes se mantienen como documentación técnica adicional para facilitar despliegue, mantenimiento y uso del repositorio.
 
 ## ✨ Características
 
@@ -98,6 +129,7 @@ Este proyecto implementa un sistema de telefonía IP (VoIP) completo con funcion
 - **🔄 Transferencias de llamadas** (ciegas y asistidas)
 - **🎤 Conferencias** tipo Discord con control de administrador
 - **🗣️ Text-to-Speech** con Festival (voces en español)
+- **🎙️ Grabación de llamadas** automática y bajo demanda
 - **📞 Menú IVR** para atención al cliente
 - **⏰ Colas de llamadas** para soporte técnico
 - **🔗 Conexión entre PBXs** mediante troncales PJSIP
@@ -105,6 +137,33 @@ Este proyecto implementa un sistema de telefonía IP (VoIP) completo con funcion
 - **💰 Sistema de tarificación** automático
 - **🌐 Interfaz web** con Flask para estadísticas y gestión
 - **🌍 Soporte multiidioma** (español configurado)
+
+---
+
+## 🗂️ Estructura del Repositorio
+
+```text
+.
+├── app/
+│   └── web/                  # Aplicación Flask
+├── assets/
+│   └── readme/               # Imágenes usadas por este README
+├── config/
+│   ├── asterisk/             # Archivos .conf de Asterisk
+│   └── odbc/                 # Configuración ODBC
+├── database/
+│   ├── schema.sql            # Esquema base de MariaDB
+│   └── seed_tarifas.sql      # Tarifas iniciales de ejemplo
+├── docs/
+│   ├── legacy/               # Notas originales de trabajo
+│   ├── presentation/         # Presentación de la práctica
+│   └── report/               # Memoria y capturas
+├── scripts/                  # Scripts auxiliares de tarificación
+├── .env.example              # Variables de entorno de ejemplo
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
 
 ---
 
@@ -120,7 +179,9 @@ Este proyecto implementa un sistema de telefonía IP (VoIP) completo con funcion
 
 ---
 
-## 🚀 Instalación
+## 🧭 Desarrollo de Guía
+
+> Nota: En esta guía se usan nombres de imágenes y apartados alineados con la memoria PDF (`docs/report/memoria-guia-completa-con-imagenes.pdf`) para facilitar el seguimiento entre ambos documentos.
 
 ### 1. Instalación de Asterisk
 
@@ -175,6 +236,54 @@ En el menú, verifica que estén habilitados:
 
 Guarda y sal con `Save & Exit`.
 
+<a id="img-01"></a>
+
+![Imagen 1 - Instalación Asterisk completada](assets/readme/pdf/imagen-01-instalacion-asterisk-completada.png)
+
+<a id="img-02"></a>
+
+![Imagen 2 - Configuración de Asterisk](assets/readme/pdf/imagen-02-configuracion-de-asterisk.png)
+
+<a id="img-03"></a>
+
+![Imagen 3 - Menú de configuraciones de Asterisk (1)](assets/readme/pdf/imagen-03-menu-de-configuraciones-de-asterisk-1.png)
+
+<a id="img-04"></a>
+
+![Imagen 4 - Menú de configuraciones de Asterisk (2)](assets/readme/pdf/imagen-04-menu-de-configuraciones-de-asterisk-2.png)
+
+<a id="img-05"></a>
+
+![Imagen 5 - Menú de configuraciones de Asterisk (3)](assets/readme/pdf/imagen-05-menu-de-configuraciones-de-asterisk-3.png)
+
+<a id="img-06"></a>
+
+![Imagen 6 - Menú de configuraciones de Asterisk (4)](assets/readme/pdf/imagen-06-menu-de-configuraciones-de-asterisk-4.png)
+
+<a id="img-07"></a>
+
+![Imagen 7 - Menú de configuraciones de Asterisk (5)](assets/readme/pdf/imagen-07-menu-de-configuraciones-de-asterisk-5.png)
+
+<a id="img-08"></a>
+
+![Imagen 8 - Menú de configuraciones de Asterisk (6)](assets/readme/pdf/imagen-08-menu-de-configuraciones-de-asterisk-6.png)
+
+<a id="img-09"></a>
+
+![Imagen 9 - Menú de configuraciones de Asterisk (7)](assets/readme/pdf/imagen-09-menu-de-configuraciones-de-asterisk-7.png)
+
+<a id="img-10"></a>
+
+![Imagen 10 - Instalación de configuraciones de Asterisk mediante el Makefile](assets/readme/pdf/imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png)
+
+<a id="img-11"></a>
+
+![Imagen 11 - Instalación de la configuración de Asterisk completada](assets/readme/pdf/imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png)
+
+<a id="img-12"></a>
+
+![Imagen 12 - Interfaz de Asterisk en modo verboso](assets/readme/pdf/imagen-12-interfaz-de-asterisk-en-modo-verboso.png)
+
 #### Compilar e instalar
 
 ```bash
@@ -224,7 +333,32 @@ Accede a la consola de Asterisk:
 sudo asterisk -rvvv
 ```
 
-### 2. Configuración de Usuarios
+#### Configurar el Firewall
+
+Abre los puertos necesarios para que Asterisk funcione correctamente:
+
+```bash
+# Puerto SIP/PJSIP (señalización)
+sudo ufw allow 5060/udp
+
+# Rango de puertos RTP (audio)
+sudo ufw allow 10000:20000/udp
+
+# Puerto web (si usas la interfaz Flask)
+sudo ufw allow 5000/tcp
+
+sudo ufw reload
+sudo ufw status
+```
+
+> **Nota**: El rango de puertos RTP (10000–20000) debe coincidir con lo configurado en `/etc/asterisk/rtp.conf`. Si no existe, se puede crear con:
+> ```ini
+> [general]
+> rtpstart=10000
+> rtpend=20000
+> ```
+
+### 2. Creación de Usuarios
 
 #### Editar `/etc/asterisk/pjsip.conf`
 
@@ -237,7 +371,13 @@ protocol=udp
 bind=0.0.0.0
 ```
 
+<a id="img-13"></a>
+
+![Imagen 13 - Protocolo de transporte UDP dentro de pjsip.conf](assets/readme/pdf/imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png)
+
 #### Crear usuarios (extensiones 2XXX)
+
+> ⚠️ **Seguridad**: Las contraseñas de ejemplo (`Hola123`) son solo para entornos de laboratorio. En producción, usa contraseñas fuertes y únicas para cada usuario.
 
 Ejemplo para el usuario 2001:
 
@@ -282,6 +422,14 @@ asterisk -rx "pjsip show endpoints"
 asterisk -rx "pjsip show aors"
 ```
 
+<a id="img-14"></a>
+
+![Imagen 14 - Comprobación de los endpoints en Asterisk](assets/readme/pdf/imagen-14-comprobacion-de-los-endpoints-en-asterisk.png)
+
+<a id="img-15"></a>
+
+![Imagen 15 - Comprobación de los AORs en Asterisk](assets/readme/pdf/imagen-15-comprobacion-de-los-aors-en-asterisk.png)
+
 #### Editar `/etc/asterisk/extensions.conf`
 
 Configurar llamadas entre usuarios:
@@ -303,7 +451,45 @@ Recarga el dialplan:
 asterisk -rx "dialplan reload"
 ```
 
-### 3. Configuración de Idioma
+#### 3. Zoiper
+
+Zoiper es una aplicación VoIP gratuita compatible con Asterisk y se usa en la práctica para verificar el registro y las llamadas entre extensiones.
+
+1. **Abrir Zoiper** y seleccionar "Continue with Free"
+2. **Introducir credenciales**:
+  - Usuario: `2001-softphone`
+  - Contraseña: `Hola123`
+3. **Configurar servidor**:
+  - IP: Dirección IP del servidor Asterisk (`ip a`)
+  - Puerto: `5060`
+4. **Verificar conexión**: Debe aparecer "Registered" o "Online"
+
+Pruebas recomendadas:
+- Llamada interna: `2002`
+- Buzón de voz: `2000`
+- Menú IVR: `1010`
+
+<a id="img-16"></a>
+
+![Imagen 16 - Formulario de inicio de sesión de Zoiper](assets/readme/pdf/imagen-16-formulario-de-inicio-de-sesion-de-zoiper.png)
+
+<a id="img-17"></a>
+
+![Imagen 17 - Comprobación y configuración de la IP en Zoiper](assets/readme/pdf/imagen-17-comprobacion-y-configuracion-de-la-ip-en-zoiper.png)
+
+<a id="img-18"></a>
+
+![Imagen 18 - Conexión establecida de un usuario final en Zoiper](assets/readme/pdf/imagen-18-conexion-establecida-de-un-usuario-final-en-zoiper.png)
+
+<a id="img-19"></a>
+
+![Imagen 19 - Interfaz de llamadas de Zoiper](assets/readme/pdf/imagen-19-interfaz-de-llamadas-de-zoiper.png)
+
+<a id="img-20"></a>
+
+![Imagen 20 - Menú de configuración de usuarios de Zoiper](assets/readme/pdf/imagen-20-menu-de-configuracion-de-usuarios-de-zoiper.png)
+
+### 4. Configuración del Idioma
 
 #### Crear directorio para español
 
@@ -341,6 +527,14 @@ sudo mv phonetic/es/* phonetic/
 sudo mv silence/es/* silence/
 ```
 
+<a id="img-21"></a>
+
+![Imagen 21 - Voces en español para Asterisk](assets/readme/pdf/imagen-21-voces-esp-asterisk.png)
+
+<a id="img-22"></a>
+
+![Imagen 22 - Ejemplo visual de carpetas de audios del idioma español](assets/readme/pdf/imagen-22-ejemplo-visual-de-carpetas-de-audios-del-idioma-espanol.png)
+
 #### Asignar permisos
 
 ```bash
@@ -350,9 +544,9 @@ sudo chown -R asterisk:asterisk /var/lib/asterisk/sounds/es
 
 ---
 
-## 🎯 Funcionalidades
+### Funcionalidades
 
-### Buzón de Voz
+#### Buzón de Voz
 
 #### Editar `/etc/asterisk/voicemail.conf`
 
@@ -383,7 +577,7 @@ same => n,VoiceMailMain(@default)
 same => n,Hangup()
 ```
 
-### Música en Espera
+#### Música en Espera
 
 #### Crear directorio
 
@@ -413,7 +607,7 @@ random=yes
 exten => 2001,n,MusicOnHold(default)
 ```
 
-### Transferencias de Llamadas
+#### Transferencias
 
 #### Editar `/etc/asterisk/features.conf`
 
@@ -436,7 +630,11 @@ Opciones:
 - `w`: Permite grabación para quien llama
 - `W`: Permite grabación para quien recibe
 
-### Conferencias
+<a id="img-23"></a>
+
+![Imagen 23 - Diagrama de flujo del funcionamiento de las redirecciones](assets/readme/pdf/imagen-23-diagrama-de-flujo-del-funcionamiento-de-las-redirecciones.png)
+
+#### Conferencias
 
 #### Editar `/etc/asterisk/confbridge.conf`
 
@@ -473,7 +671,47 @@ same => n,ConfBridge(1,bridge,admin)
 same => n,Hangup()
 ```
 
-### Text-to-Speech (TTS)
+<a id="img-24"></a>
+
+![Imagen 24 - Menús de control de usuario del archivo confbridge.conf](assets/readme/pdf/imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png)
+
+### Grabación de Llamadas
+
+Asterisk permite grabar llamadas automáticamente o bajo demanda.
+
+#### Configuración automática en el dialplan
+
+Añade en `/etc/asterisk/extensions.conf` la aplicación `MixMonitor`:
+
+```ini
+[office-phone]
+exten => 2001,1,Answer()
+same => n,MixMonitor(/var/spool/asterisk/monitor/${UNIQUEID}.wav,b)
+same => n,Dial(PJSIP/2001,20,tTwW)
+same => n,StopMixMonitor()
+same => n,VoiceMail(2001@default,u)
+same => n,Hangup()
+```
+
+El parámetro `b` indica que la mezcla se realiza al finalizar la llamada (más eficiente). Los archivos se guardan en `/var/spool/asterisk/monitor/`.
+
+#### Grabación bajo demanda
+
+Con la opción `w`/`W` en `Dial()` y los códigos de `features.conf`, los usuarios pueden iniciar/detener la grabación marcando `*3` durante la llamada (según lo configurado en `automon`).
+
+#### Asignar permisos al directorio
+
+```bash
+sudo mkdir -p /var/spool/asterisk/monitor
+sudo chown -R asterisk:asterisk /var/spool/asterisk/monitor
+sudo chmod 750 /var/spool/asterisk/monitor
+```
+
+> **Nota**: Revisa la legalidad de la grabación de llamadas en tu país antes de activarla en producción.
+
+#### Texto a Voz - TTS
+
+##### Festival
 
 #### Instalar Festival
 
@@ -542,6 +780,14 @@ sudo systemctl enable festival
 sudo systemctl start festival
 ```
 
+<a id="img-25"></a>
+
+![Imagen 25 - Comprobación de que festival está activo](assets/readme/pdf/imagen-25-comprobacion-de-que-festival-esta-activo.png)
+
+<a id="img-26"></a>
+
+![Imagen 26 - Comprobación de que Festival se ha configurado correctamente en Asterisk](assets/readme/pdf/imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png)
+
 #### Usar en el dialplan
 
 ```ini
@@ -550,7 +796,7 @@ same => n,Festival("Bienvenido a la central Marchel")
 same => n,Hangup()
 ```
 
-### Menú IVR
+#### Menú IVR
 
 El menú IVR (Interactive Voice Response) permite a los usuarios interactuar con el sistema mediante el teclado telefónico.
 
@@ -609,7 +855,11 @@ exten => t,1,Playback(vm-goodbye)
 same => n,Hangup()
 ```
 
-### Colas de Llamadas
+<a id="img-27"></a>
+
+![Imagen 27 - Diagrama de flujo sobre el funcionamiento del Menú IVR](assets/readme/pdf/imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png)
+
+#### Llamadas en Cola
 
 #### Editar `/etc/asterisk/queues.conf`
 
@@ -643,7 +893,11 @@ same => n,Queue(soporte-tecnico,tTwW)
 same => n,Hangup()
 ```
 
-### Conexión entre PBXs
+<a id="img-28"></a>
+
+![Imagen 28 - Diagrama de flujo de funcionamiento de la cola de llamadas del soporte técnico](assets/readme/pdf/imagen-28-diagrama-de-flujo-de-funcionamiento-de-la-cola-de-llamadas-del-soporte-tecnico.png)
+
+#### Conexión PBXs
 
 Esta funcionalidad permite conectar dos centrales telefónicas Asterisk diferentes mediante troncales PJSIP, permitiendo que usuarios de diferentes servidores puedan comunicarse entre sí.
 
@@ -783,6 +1037,33 @@ same => n,Hangup()
 - **retry_interval**: Tiempo en segundos entre intentos de registro
 - **match**: Dirección IP del servidor remoto para identificación
 
+#### Configuración de NAT
+
+Si los servidores están detrás de NAT (por ejemplo, en redes con IPs privadas), añade en `/etc/asterisk/pjsip.conf` la sección de transporte con parámetros NAT:
+
+```ini
+[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0
+local_net=192.168.1.0/24        ; Red local
+external_media_address=0.0.0.0  ; IP pública (si aplica)
+external_signaling_address=0.0.0.0  ; IP pública (si aplica)
+```
+
+Y en cada endpoint de troncal, asegúrate de tener:
+
+```ini
+[servidorB]
+type=endpoint
+; ... resto de parámetros ...
+direct_media=no
+ice_support=no
+rtp_symmetric=yes
+force_rport=yes
+rewrite_contact=yes
+```
+
 #### Verificación de la conexión
 
 En ambos servidores, verifica:
@@ -828,7 +1109,7 @@ Una vez configurado:
 3. El usuario 6001 en Servidor B recibe la llamada
 4. Viceversa para llamadas de 6XXX hacia 2XXX
 
-### Base de Datos y CDR
+#### Instalación de MariaDB
 
 #### Instalar MariaDB
 
@@ -838,6 +1119,10 @@ sudo systemctl enable mariadb
 sudo systemctl start mariadb
 sudo mysql_secure_installation
 ```
+
+<a id="img-29"></a>
+
+![Imagen 29 - Comprobación de que MariaDB se encuentra activa](assets/readme/pdf/imagen-29-comprobacion-de-que-mariadb-se-encuentra-activa.png)
 
 #### Crear base de datos y usuario
 
@@ -853,7 +1138,17 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
+<a id="img-30"></a>
+
+![Imagen 30 - Comprobación de creación del usuario asterisk dentro de MariaDB](assets/readme/pdf/imagen-30-comprobacion-de-creacion-del-usuario-asterisk-dentro-de-mariadb.png)
+
+<a id="img-31"></a>
+
+![Imagen 31 - Comprobación de permisos del usuario asterisk](assets/readme/pdf/imagen-31-comprobacion-de-permisos-del-usuario-asterisk.png)
+
 #### Crear tabla CDR
+
+> ⚠️ Esta tabla incluye las columnas `coste` y `tarificado` necesarias para el script de tarificación.
 
 ```sql
 USE asterisk_cdr;
@@ -874,9 +1169,15 @@ CREATE TABLE cdr (
     amaflags INT(11) NOT NULL DEFAULT 0,
     accountcode VARCHAR(20) NOT NULL DEFAULT '',
     uniqueid VARCHAR(150) NOT NULL DEFAULT '',
-    userfield VARCHAR(255) NOT NULL DEFAULT ''
+    userfield VARCHAR(255) NOT NULL DEFAULT '',
+    coste DECIMAL(10,4) NOT NULL DEFAULT 0.0000,
+    tarificado TINYINT(1) NOT NULL DEFAULT 0
 );
 ```
+
+<a id="img-32"></a>
+
+![Imagen 32 - Comprobación de la creación de la tabla CDR](assets/readme/pdf/imagen-32-comprobacion-de-la-creacion-de-la-tabla-cdr.png)
 
 #### Instalar ODBC
 
@@ -935,9 +1236,64 @@ table=cdr
 asterisk -rx "odbc show"
 ```
 
-### Interfaz Web
+<a id="img-33"></a>
+
+![Imagen 33 - Comprobación de que MariaDB se ha conectado correctamente a Asterisk](assets/readme/pdf/imagen-33-comprobacion-de-que-mariadb-se-ha-conectado-correctamente-a-asterisk.png)
+
+<a id="img-34"></a>
+
+![Imagen 34 - Comprobación de que el conector ODBC está bien conectado a Asterisk](assets/readme/pdf/imagen-34-comprobacion-de-que-el-conector-odbc-esta-bien-conectado-a-asterisk.png)
+
+#### Tarificación
+
+El repositorio incluye el script de tarificación en `scripts/tarificar.py`, que procesa registros CDR y calcula costes automáticamente.
+
+#### Correspondencia de nombres de archivos (PDF ↔ repositorio)
+
+| En la memoria PDF | En este repositorio | Estado |
+|---|---|---|
+| `/usr/local/bin/tarificar.py` | `scripts/tarificar.py` | Script principal actual |
+| `billing_job.py` (referencia heredada) | `scripts/billing_job.py` | Compatibilidad / versión anterior |
+| `app.py` web | `app/web/app.py` | Implementación actual |
+| `/var/www/marchel/templates/*.html` | `app/web/templates/*.html` | Plantillas actuales |
+
+> Recomendación: usar `scripts/tarificar.py` como referencia principal para despliegue y dejar `scripts/billing_job.py` como script legacy.
+
+Para instalarlo en el servidor:
+
+```bash
+sudo cp scripts/tarificar.py /usr/local/bin/tarificar.py
+sudo chmod 755 /usr/local/bin/tarificar.py
+```
+
+Automatización con CRON:
+
+```bash
+sudo crontab -e
+```
+
+Añadir:
+
+```cron
+*/5 * * * * /usr/bin/python3 /usr/local/bin/tarificar.py >> /var/log/tarificar.log 2>&1
+```
+
+<a id="img-35"></a>
+
+![Imagen 35 - Ejemplo de datos almacenados en base de datos tras las llamadas](assets/readme/pdf/imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png)
+
+<a id="img-36"></a>
+
+![Imagen 36 - Interfaz CRON](assets/readme/pdf/imagen-36-interfaz-cron.png)
+
+##### www.marchel.com
 
 La interfaz web está desarrollada con Flask y permite a los usuarios consultar estadísticas, historial de llamadas y tarifas.
+
+> Aclaración importante sobre el dominio:
+> - `www.marchel.com` se usa como **nombre funcional del proyecto** y ejemplo de despliegue.
+> - Este repositorio **no acredita propiedad ni control** sobre ese dominio público.
+> - Para pruebas o despliegue real, usa tu propio dominio/subdominio o IP (por ejemplo: `http://IP_SERVIDOR:5050` o `https://pbx.tu-dominio.com`).
 
 #### Instalar dependencias
 
@@ -949,73 +1305,154 @@ pip3 install flask mysql-connector-python pandas matplotlib
 #### Estructura del proyecto
 
 ```
-/var/www/marchel/
+app/web/
 ├── app.py
+├── __init__.py
 ├── templates/
-│   ├── login.html
 │   ├── dashboard.html
 │   ├── estadisticas.html
 │   ├── historial.html
-│   └── tarifas.html
+│   ├── index.html
+│   ├── tarifas.html
+│   └── tendencias.html
 └── static/
-    ├── css/
-    └── js/
+  ├── css/
+  │   └── styles.css
+  └── img/
+    └── logo-marchel.png
 ```
 
-#### Script de tarificación
-
-Crea `/usr/local/bin/tarificar.py`:
-
-```python
-#!/usr/bin/env python3
-import mysql.connector
-from datetime import datetime
-
-# Conexión a la base de datos
-db = mysql.connector.connect(
-    host="localhost",
-    user="asterisk",
-    password="password123",
-    database="asterisk_cdr"
-)
-
-cursor = db.cursor()
-
-# Tarifa: 0.05€ por minuto
-TARIFA_POR_MINUTO = 0.05
-
-# Obtener llamadas no tarificadas
-query = "SELECT uniqueid, billsec FROM cdr WHERE tarificado = 0"
-cursor.execute(query)
-
-for (uniqueid, billsec) in cursor:
-    minutos = billsec / 60
-    coste = minutos * TARIFA_POR_MINUTO
-    
-    # Actualizar registro
-    update = "UPDATE cdr SET coste = %s, tarificado = 1 WHERE uniqueid = %s"
-    cursor.execute(update, (coste, uniqueid))
-
-db.commit()
-cursor.close()
-db.close()
-```
-
-#### Automatizar con CRON
+#### Ejecutar la aplicación web
 
 ```bash
-sudo crontab -e
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+python app/web/app.py
 ```
 
-Añadir:
+En el repositorio, la aplicación ya está implementada en `app/web/app.py` y usa variables de entorno definidas en `.env`.
 
+Para ejecutarla como servicio en producción, crea `/etc/systemd/system/marchel-web.service`:
+
+```ini
+[Unit]
+Description=Marchel Web Interface
+After=network.target mariadb.service
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/ruta/al/repositorio/Marchel-Asterisk
+ExecStart=/usr/bin/python3 app/web/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
 ```
-0 * * * * /usr/bin/python3 /usr/local/bin/tarificar.py
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable marchel-web
+sudo systemctl start marchel-web
 ```
+
+Accede en el navegador: `http://<IP_SERVIDOR>:5050`
+
+<a id="img-37"></a>
+
+![Imagen 37 - Web Inicio de Sesión](assets/readme/pdf/imagen-37-web-inicio-de-sesion.png)
+
+<a id="img-38"></a>
+
+![Imagen 38 - Web Panel Principal](assets/readme/pdf/imagen-38-web-panel-principal.png)
+
+<a id="img-39"></a>
+
+![Imagen 39 - Web Estadísticas](assets/readme/pdf/imagen-39-web-estadisticas.png)
+
+<a id="img-40"></a>
+
+![Imagen 40 - Web Tarifas](assets/readme/pdf/imagen-40-web-tarifas.png)
+
+<a id="img-41"></a>
+
+![Imagen 41 - Web Historial](assets/readme/pdf/imagen-41-web-historial.png)
+
+<a id="img-42"></a>
+
+![Imagen 42 - Web Tendencias](assets/readme/pdf/imagen-42-web-tendencias.png)
 
 ---
 
-## 📱 Configuración de Cliente (Zoiper)
+## 🗺️ Mapa de imágenes (auditoría)
+
+| Imagen | Archivo | Sección correspondiente |
+|---|---|---|
+| [1](#img-01) | [imagen-01-instalacion-asterisk-completada.png](assets/readme/pdf/imagen-01-instalacion-asterisk-completada.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [2](#img-02) | [imagen-02-configuracion-de-asterisk.png](assets/readme/pdf/imagen-02-configuracion-de-asterisk.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [3](#img-03) | [imagen-03-menu-de-configuraciones-de-asterisk-1.png](assets/readme/pdf/imagen-03-menu-de-configuraciones-de-asterisk-1.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [4](#img-04) | [imagen-04-menu-de-configuraciones-de-asterisk-2.png](assets/readme/pdf/imagen-04-menu-de-configuraciones-de-asterisk-2.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [5](#img-05) | [imagen-05-menu-de-configuraciones-de-asterisk-3.png](assets/readme/pdf/imagen-05-menu-de-configuraciones-de-asterisk-3.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [6](#img-06) | [imagen-06-menu-de-configuraciones-de-asterisk-4.png](assets/readme/pdf/imagen-06-menu-de-configuraciones-de-asterisk-4.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [7](#img-07) | [imagen-07-menu-de-configuraciones-de-asterisk-5.png](assets/readme/pdf/imagen-07-menu-de-configuraciones-de-asterisk-5.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [8](#img-08) | [imagen-08-menu-de-configuraciones-de-asterisk-6.png](assets/readme/pdf/imagen-08-menu-de-configuraciones-de-asterisk-6.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [9](#img-09) | [imagen-09-menu-de-configuraciones-de-asterisk-7.png](assets/readme/pdf/imagen-09-menu-de-configuraciones-de-asterisk-7.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [10](#img-10) | [imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png](assets/readme/pdf/imagen-10-instalacion-de-configuraciones-de-asterisk-mediante-el-makefile.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [11](#img-11) | [imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png](assets/readme/pdf/imagen-11-instalacion-de-la-configuracion-de-asterisk-completada.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [12](#img-12) | [imagen-12-interfaz-de-asterisk-en-modo-verboso.png](assets/readme/pdf/imagen-12-interfaz-de-asterisk-en-modo-verboso.png) | [1. Instalación de Asterisk](#1-instalación-de-asterisk) |
+| [13](#img-13) | [imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png](assets/readme/pdf/imagen-13-protocolo-de-transporte-udp-dentro-de-pjsip-conf.png) | [2. Creación de Usuarios](#2-creación-de-usuarios) |
+| [14](#img-14) | [imagen-14-comprobacion-de-los-endpoints-en-asterisk.png](assets/readme/pdf/imagen-14-comprobacion-de-los-endpoints-en-asterisk.png) | [2. Creación de Usuarios](#2-creación-de-usuarios) |
+| [15](#img-15) | [imagen-15-comprobacion-de-los-aors-en-asterisk.png](assets/readme/pdf/imagen-15-comprobacion-de-los-aors-en-asterisk.png) | [2. Creación de Usuarios](#2-creación-de-usuarios) |
+| [16](#img-16) | [imagen-16-formulario-de-inicio-de-sesion-de-zoiper.png](assets/readme/pdf/imagen-16-formulario-de-inicio-de-sesion-de-zoiper.png) | [3. Zoiper](#3-zoiper) |
+| [17](#img-17) | [imagen-17-comprobacion-y-configuracion-de-la-ip-en-zoiper.png](assets/readme/pdf/imagen-17-comprobacion-y-configuracion-de-la-ip-en-zoiper.png) | [3. Zoiper](#3-zoiper) |
+| [18](#img-18) | [imagen-18-conexion-establecida-de-un-usuario-final-en-zoiper.png](assets/readme/pdf/imagen-18-conexion-establecida-de-un-usuario-final-en-zoiper.png) | [3. Zoiper](#3-zoiper) |
+| [19](#img-19) | [imagen-19-interfaz-de-llamadas-de-zoiper.png](assets/readme/pdf/imagen-19-interfaz-de-llamadas-de-zoiper.png) | [3. Zoiper](#3-zoiper) |
+| [20](#img-20) | [imagen-20-menu-de-configuracion-de-usuarios-de-zoiper.png](assets/readme/pdf/imagen-20-menu-de-configuracion-de-usuarios-de-zoiper.png) | [3. Zoiper](#3-zoiper) |
+| [21](#img-21) | [imagen-21-voces-esp-asterisk.png](assets/readme/pdf/imagen-21-voces-esp-asterisk.png) | [4. Configuración del Idioma](#4-configuración-del-idioma) |
+| [22](#img-22) | [imagen-22-ejemplo-visual-de-carpetas-de-audios-del-idioma-espanol.png](assets/readme/pdf/imagen-22-ejemplo-visual-de-carpetas-de-audios-del-idioma-espanol.png) | [4. Configuración del Idioma](#4-configuración-del-idioma) |
+| [23](#img-23) | [imagen-23-diagrama-de-flujo-del-funcionamiento-de-las-redirecciones.png](assets/readme/pdf/imagen-23-diagrama-de-flujo-del-funcionamiento-de-las-redirecciones.png) | [Transferencias](#transferencias) |
+| [24](#img-24) | [imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png](assets/readme/pdf/imagen-24-menus-de-control-de-usuario-del-archivo-confbridge-conf.png) | [Conferencias](#conferencias) |
+| [25](#img-25) | [imagen-25-comprobacion-de-que-festival-esta-activo.png](assets/readme/pdf/imagen-25-comprobacion-de-que-festival-esta-activo.png) | [Festival](#festival) |
+| [26](#img-26) | [imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png](assets/readme/pdf/imagen-26-comprobacion-de-que-festival-se-ha-configurado-correctamente-en-asterisk.png) | [Festival](#festival) |
+| [27](#img-27) | [imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png](assets/readme/pdf/imagen-27-diagrama-de-flujo-sobre-el-funcionamiento-del-menu-ivr.png) | [Menú IVR](#menú-ivr) |
+| [28](#img-28) | [imagen-28-diagrama-de-flujo-de-funcionamiento-de-la-cola-de-llamadas-del-soporte-tecnico.png](assets/readme/pdf/imagen-28-diagrama-de-flujo-de-funcionamiento-de-la-cola-de-llamadas-del-soporte-tecnico.png) | [Llamadas en Cola](#llamadas-en-cola) |
+| [29](#img-29) | [imagen-29-comprobacion-de-que-mariadb-se-encuentra-activa.png](assets/readme/pdf/imagen-29-comprobacion-de-que-mariadb-se-encuentra-activa.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
+| [30](#img-30) | [imagen-30-comprobacion-de-creacion-del-usuario-asterisk-dentro-de-mariadb.png](assets/readme/pdf/imagen-30-comprobacion-de-creacion-del-usuario-asterisk-dentro-de-mariadb.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
+| [31](#img-31) | [imagen-31-comprobacion-de-permisos-del-usuario-asterisk.png](assets/readme/pdf/imagen-31-comprobacion-de-permisos-del-usuario-asterisk.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
+| [32](#img-32) | [imagen-32-comprobacion-de-la-creacion-de-la-tabla-cdr.png](assets/readme/pdf/imagen-32-comprobacion-de-la-creacion-de-la-tabla-cdr.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
+| [33](#img-33) | [imagen-33-comprobacion-de-que-mariadb-se-ha-conectado-correctamente-a-asterisk.png](assets/readme/pdf/imagen-33-comprobacion-de-que-mariadb-se-ha-conectado-correctamente-a-asterisk.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
+| [34](#img-34) | [imagen-34-comprobacion-de-que-el-conector-odbc-esta-bien-conectado-a-asterisk.png](assets/readme/pdf/imagen-34-comprobacion-de-que-el-conector-odbc-esta-bien-conectado-a-asterisk.png) | [Instalación de MariaDB](#instalación-de-mariadb) |
+| [35](#img-35) | [imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png](assets/readme/pdf/imagen-35-ejemplo-de-como-deben-salir-los-datos-tras-las-llamadas.png) | [Tarificación](#tarificación) |
+| [36](#img-36) | [imagen-36-interfaz-cron.png](assets/readme/pdf/imagen-36-interfaz-cron.png) | [Tarificación](#tarificación) |
+| [37](#img-37) | [imagen-37-web-inicio-de-sesion.png](assets/readme/pdf/imagen-37-web-inicio-de-sesion.png) | [www.marchel.com](#wwwmarchelcom) |
+| [38](#img-38) | [imagen-38-web-panel-principal.png](assets/readme/pdf/imagen-38-web-panel-principal.png) | [www.marchel.com](#wwwmarchelcom) |
+| [39](#img-39) | [imagen-39-web-estadisticas.png](assets/readme/pdf/imagen-39-web-estadisticas.png) | [www.marchel.com](#wwwmarchelcom) |
+| [40](#img-40) | [imagen-40-web-tarifas.png](assets/readme/pdf/imagen-40-web-tarifas.png) | [www.marchel.com](#wwwmarchelcom) |
+| [41](#img-41) | [imagen-41-web-historial.png](assets/readme/pdf/imagen-41-web-historial.png) | [www.marchel.com](#wwwmarchelcom) |
+| [42](#img-42) | [imagen-42-web-tendencias.png](assets/readme/pdf/imagen-42-web-tendencias.png) | [www.marchel.com](#wwwmarchelcom) |
+
+### Mapa por sección (revisión docente rápida)
+
+| Sección | Imágenes |
+|---|---|
+| [1. Instalación de Asterisk](#1-instalación-de-asterisk) | [1](#img-01)–[12](#img-12) |
+| [2. Creación de Usuarios](#2-creación-de-usuarios) | [13](#img-13)–[15](#img-15) |
+| [3. Zoiper](#3-zoiper) | [16](#img-16)–[20](#img-20) |
+| [4. Configuración del Idioma](#4-configuración-del-idioma) | [21](#img-21)–[22](#img-22) |
+| [Transferencias](#transferencias) | [23](#img-23) |
+| [Conferencias](#conferencias) | [24](#img-24) |
+| [Festival](#festival) | [25](#img-25)–[26](#img-26) |
+| [Menú IVR](#menú-ivr) | [27](#img-27) |
+| [Llamadas en Cola](#llamadas-en-cola) | [28](#img-28) |
+| [Instalación de MariaDB](#instalación-de-mariadb) | [29](#img-29)–[34](#img-34) |
+| [Tarificación](#tarificación) | [35](#img-35)–[36](#img-36) |
+| [www.marchel.com](#wwwmarchelcom) | [37](#img-37)–[42](#img-42) |
+
+---
+
+## 📎 Anexo: Zoiper (detalle)
 
 Zoiper es una aplicación VoIP gratuita compatible con Asterisk.
 
@@ -1137,6 +1574,12 @@ Este proyecto fue desarrollado como **Práctica 2** de la asignatura *Laboratori
 
 ---
 
+## ✅ Conclusión
+
+La guía del repositorio queda alineada con la memoria de la práctica en el orden de implementación: instalación base, usuarios, Zoiper, módulos de telefonía, integración con MariaDB, tarificación y despliegue web. Esta secuencia permite reproducir la solución completa de Marchel desde cero y validar cada fase de forma incremental.
+
+---
+
 ## 📚 Bibliografía
 
 - [Documentación oficial de Asterisk](https://wiki.asterisk.org/)
@@ -1152,7 +1595,9 @@ Este proyecto fue desarrollado como **Práctica 2** de la asignatura *Laboratori
 
 ## 📝 Licencia
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+Este proyecto está publicado bajo la licencia **MIT**, por lo que cualquiera puede usarlo, copiarlo, modificarlo y redistribuirlo.
+
+Consulta el archivo [LICENSE](LICENSE) para el texto legal completo.
 
 ---
 
@@ -1219,6 +1664,27 @@ asterisk -rx "core set verbose 5"
 - Revisa los endpoints: `asterisk -rx "pjsip show endpoints"`
 - Verifica que los puertos estén abiertos en ambos firewalls
 - Revisa los logs de ambos servidores para errores de autenticación
+
+**No se guardan registros CDR en la base de datos**:
+- Verifica la conexión ODBC: `asterisk -rx "odbc show"`
+- Comprueba que el módulo esté cargado: `asterisk -rx "module show like cdr_adaptive_odbc"`
+- Verifica las credenciales en `res_odbc.conf` y `odbc.ini`
+- Revisa que la tabla `cdr` tenga las columnas `coste` y `tarificado`
+- Comprueba el socket de MariaDB: `ls /var/run/mysqld/mysqld.sock`
+
+**Las grabaciones no se generan**:
+- Verifica permisos: `ls -la /var/spool/asterisk/monitor/`
+- Comprueba que el módulo esté cargado: `asterisk -rx "module show like app_mixmonitor"`
+- Revisa que haya espacio en disco: `df -h`
+
+**La interfaz web no arranca**:
+- Comprueba que Flask esté instalado: `python3 -c "import flask; print(flask.__version__)"`
+- Verifica que el puerto 5000 esté libre: `sudo ss -tlnp | grep 5000`
+- Revisa los logs del servicio: `sudo journalctl -u marchel-web -f`
+- Comprueba la conexión a la base de datos desde Python:
+  ```bash
+  python3 -c "import mysql.connector; db=mysql.connector.connect(host='localhost',user='asterisk',password='password123',database='asterisk_cdr'); print('OK')"
+  ```
 
 ---
 

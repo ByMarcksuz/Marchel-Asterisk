@@ -1,0 +1,35 @@
+[Unit]
+Description=Festival TTS Service for Asterisk
+Documentation=https://www.cstr.ed.ac.uk/projects/festival/
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=festival
+Group=festival
+
+# Directorio de trabajo
+WorkingDirectory=/var/lib/festival
+
+# Ejecutar Festival en modo servidor
+ExecStart=/usr/bin/festival --server --log /var/log/festival.log
+
+# Reintentar en caso de fallo
+Restart=on-failure
+RestartSec=5s
+
+# Límites de recursos
+CPUQuota=50%
+MemoryMax=512M
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=festival
+
+# Timeout
+TimeoutStartSec=10
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

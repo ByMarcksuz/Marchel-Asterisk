@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marchel - Panel de Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container tarifas-container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo-marchel.png') }}" alt="Marchel Logo">
+        </div>
+        <h2>Panel de Usuario</h2>
+
+        <div class="nav-tabs">
+            <a href="{{ url_for('dashboard') }}" class="active">Panel Principal</a>
+            <a href="{{ url_for('estadisticas') }}">Estadísticas</a>
+            <a href="{{ url_for('tarifas') }}">Tarifas</a>
+            <a href="{{ url_for('historial') }}">Historial</a>
+            <a href="{{ url_for('tendencias') }}">Tendencias</a>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Costo Total del Mes</h3>
+                <p>{{ datos.total_costo }} €</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Llamadas Realizadas</h3>
+                <p>{{ datos.llamadas_realizadas }}</p>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Duración Total</h3>
+                <p>{{ datos.total_duracion }} seg</p>
+            </div>
+        </div>
+        
+        <a href="{{ url_for('logout') }}" class="logout-btn">Cerrar Sesión</a>
+    </div>
+</body>
+</html>

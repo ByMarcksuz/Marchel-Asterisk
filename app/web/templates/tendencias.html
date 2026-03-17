@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marchel - Tendencias</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container statistics-container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo-marchel.png') }}" alt="Marchel Logo">
+        </div>
+        <h2>Tendencias de Consumo</h2>
+        
+        <div class="nav-tabs">
+            <a href="{{ url_for('dashboard') }}">Panel Principal</a>
+            <a href="{{ url_for('estadisticas') }}">Estadísticas</a>
+            <a href="{{ url_for('tarifas') }}">Tarifas</a>
+            <a href="{{ url_for('historial') }}">Historial</a>
+            <a href="{{ url_for('tendencias') }}" class="active">Tendencias</a>
+        </div>
+        
+        <div class="chart-card">
+            <h3>Tendencia de Costos Mensuales</h3>
+            <canvas id="costosMensualesChart"></canvas>
+        </div>
+        
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Tendencia de Llamadas</h3>
+                <canvas id="llamadasMensualesChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Duración de Llamadas</h3>
+                <canvas id="duracionMensualesChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="comparison-card">
+            <h3>Resumen de los últimos 6 meses</h3>
+            <div class="tarifas-table-container" style="max-height: 300px;">
+                <table class="tarifas-table">
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th>Total Llamadas</th>
+                            <th>Duración (min)</th>
+                            <th>Costo Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in tendencias %}
+                        <tr>
+                            <td>{{ item.mes }}</td>
+                            <td>{{ item.total_llamadas }}</td>
+                            <td>{{ (item.duracion_total / 60)|round(1) }}</td>
+                            <td class="tarifa-precio">{{ "%.2f"|format(item.costo_total) }} €</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <a href="{{ url_for('logout') }}" class="logout-btn">Cerrar Sesión</a>
+    </div>
+    
+    <script>
+        // Datos para los gráficos
+        const meses = [{% for item in tendencias %}"{{ item.mes }}",{% endfor %}];
+        const costos = [{% for item in tendencias %}{{ item.costo_total }},{% endfor %}];
+        const llamadas = [{% for item in tendencias %}{{ item.total_llamadas }},{% endfor %}];
+        const duraciones = [{% for item in tendencias %}{{ (item.duracion_total / 60)|round(1) }},{% endfor %}];
+        
+        // Configuración y creación de los gráficos
+        window.onload = function() {
+            // Gráfico de costos mensuales
+            new Chart(document.getElementById('costosMensualesChart'), {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Costo Total (€)',
+                        data: costos,
+                        backgroundColor: 'rgba(46, 164, 79, 0.2)',
+                        borderColor: '#2EA44F',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de llamadas mensuales
+            new Chart(document.getElementById('llamadasMensualesChart'), {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Número de llamadas',
+                        data: llamadas,
+                        backgroundColor: '#5ACA78',
+                        borderColor: '#2EA44F',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de duración de llamadas
+            new Chart(document.getElementById('duracionMensualesChart'), {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Duración total (min)',
+                        data: duraciones,
+                        backgroundColor: '#A8D7A8',
+                        borderColor: '#5ACA78',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

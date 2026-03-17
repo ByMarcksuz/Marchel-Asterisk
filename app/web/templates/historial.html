@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marchel - Historial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container tarifas-container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo-marchel.png') }}" alt="Marchel Logo">
+        </div>
+        <h2>Historial de Llamadas</h2>
+        
+        <div class="nav-tabs">
+            <a href="{{ url_for('dashboard') }}">Panel Principal</a>
+            <a href="{{ url_for('estadisticas') }}">Estadísticas</a>
+            <a href="{{ url_for('tarifas') }}">Tarifas</a>
+            <a href="{{ url_for('historial') }}" class="active">Historial</a>
+            <a href="{{ url_for('tendencias') }}">Tendencias</a>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="searchHistorial" placeholder="Buscar por destino o fecha...">
+        </div>
+        
+        <div class="tarifas-table-container">
+            <table class="historial-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Destino</th>
+                        <th>Duración</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="historialBody">
+                    {% for llamada in historial %}
+                    <tr>
+                        <td>{{ llamada.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>{{ llamada.dst }}</td>
+                        <td>{{ llamada.duracion }} seg</td>
+                        <td class="tarifa-precio">{{ "%.2f"|format(llamada.costo) }} €</td>
+                        <td>
+                            <span class="call-status {% if llamada.estado == 'Contestada' %}status-answered{% else %}status-missed{% endif %}">
+                                {{ llamada.estado }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <a href="{{ url_for('logout') }}" class="logout-btn">Cerrar Sesión</a>
+    </div>
+    
+    <script>
+        // Búsqueda en tiempo real
+        document.getElementById('searchHistorial').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.getElementById('historialBody').getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const fecha = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                const destino = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+                
+                if (fecha.includes(searchTerm) || destino.includes(searchTerm)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
